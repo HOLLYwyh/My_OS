@@ -55,6 +55,8 @@ LABEL_BEGIN:
 	lgdt	[GdtPtr]
 
 	; 关中断
+	; 使用关中断的原因：8086CPU访问过大地址会回卷，80286不会回卷，为了避免
+	; 为了避免向上不兼容，采用A20地址线
 	cli
 
 	; 打开地址线A20
@@ -70,6 +72,7 @@ LABEL_BEGIN:
 	; 真正进入保护模式
 	jmp	dword SelectorCode32:0	; 执行这一句会把 SelectorCode32 装入 cs,
 					; 并跳转到 Code32Selector:0  处
+					; 必须加dword才能实现32位的转化
 ; END of [SECTION .s16]
 
 
