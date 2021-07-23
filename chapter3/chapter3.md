@@ -67,11 +67,16 @@ Fault
 Trap  
 Abort  
 3. 中断
+(1)
 - 外部中断  
-(1)8529A  
+- - 8529A  
 ICW  
 OCW  
 - 内部中断  
+(2) iretd
+从中断或异常返回时必须使用指令iretd,它与ret很相似，只是它同时会改变eflags的值。
+
+
 
 
 
