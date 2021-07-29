@@ -34,7 +34,7 @@ disp_str:
     push    esi
     push    edi
     ;push    eax
-    push    ebx
+    ;push    ebx
 
 	mov	esi, [ebp + 8]	; pszInfo
 	mov	edi, [disp_pos]
@@ -63,7 +63,7 @@ disp_str:
 
 .2:
 	mov	[disp_pos], edi
-    pop ebx
+    ;pop ebx
     ;pop eax
     pop edi
     pop esi
