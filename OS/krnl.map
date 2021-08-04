@@ -595,10 +595,10 @@ LOAD lib/orangescrt.a
                 0x0000000000005dbc                dump_msg
  .text          0x0000000000005ef1      0x2fc kernel/systask.o
                 0x0000000000005ef1                task_sys
- .text          0x00000000000061ed      0xf0c kernel/hd.o
+ .text          0x00000000000061ed      0xf0a kernel/hd.o
                 0x00000000000061ed                task_hd
-                0x00000000000070ba                hd_handler
- *fill*         0x00000000000070f9        0x7 
+                0x00000000000070b8                hd_handler
+ *fill*         0x00000000000070f7        0x9 
  .text          0x0000000000007100      0x1a6 kernel/kliba.o
                 0x0000000000007100                disp_str
                 0x0000000000007144                disp_color_str
