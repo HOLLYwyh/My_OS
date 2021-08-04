@@ -242,14 +242,14 @@ void untar(const char * filename)
 }
 
 /*****************************************************************************
- *                                shabby_shell
+ *                                shell
  *****************************************************************************/
 /**
  * A very very simple shell.
- * 
+ * @modified by HOLLYwyh
  * @param tty_name  TTY file name.
  *****************************************************************************/
-void shabby_shell(const char * tty_name)
+void shell(const char * tty_name)
 {
 	int fd_stdin  = open(tty_name, O_RDWR);
 	assert(fd_stdin  == 0);
@@ -294,13 +294,20 @@ void shabby_shell(const char * tty_name)
 		}
 		else {
 			close(fd);
-			int pid = fork();
-			if (pid != 0) { /* parent */
-				int s;
-				wait(&s);
+			if(argv[0][0]=='/')
+			{
+				write(1,"/\n",2);
 			}
-			else {	/* child */
-				execv(argv[0], argv);
+			else
+			{
+				int pid = fork();
+				if (pid != 0) { /* parent */
+					int s;
+					wait(&s);
+				}
+				else {	/* child */
+					execv(argv[0], argv);
+				}
 			}
 		}
 	}
@@ -342,7 +349,7 @@ void Init()
 			close(fd_stdin);
 			close(fd_stdout);
 			
-			shabby_shell(tty_list[i]);
+			shell(tty_list[i]);
 			assert(0);
 		}
 	}
@@ -374,7 +381,7 @@ void TestB()
 }
 
 /*======================================================================*
-                               TestB
+                               TestC
  *======================================================================*/
 void TestC()
 {
