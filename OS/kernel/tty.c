@@ -171,16 +171,10 @@ PUBLIC void in_process(TTY* tty, u32 key)
 			put_key(tty, '\b');
 			break;
 		case UP:
-			if ((key & FLAG_SHIFT_L) ||
-			    (key & FLAG_SHIFT_R)) {	/* Shift + Up */
 				scroll_screen(tty->console, SCR_DN);
-			}
 			break;
 		case DOWN:
-			if ((key & FLAG_SHIFT_L) ||
-			    (key & FLAG_SHIFT_R)) {	/* Shift + Down */
 				scroll_screen(tty->console, SCR_UP);
-			}
 			break;
 		case F1:
 		case F2:
@@ -194,8 +188,7 @@ PUBLIC void in_process(TTY* tty, u32 key)
 		case F10:
 		case F11:
 		case F12:
-			if ((key /*& FLAG_ALT_L*/) ||
-			    (key /*& FLAG_ALT_R*/)) {	/* Alt + F1~F12 */
+			if (key) {	/*F1~F12 */
 				select_console(raw_code - F1);
 			}
 			break;

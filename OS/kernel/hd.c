@@ -3,8 +3,9 @@
  * @file   hd.c
  * @brief  Hard disk (winchester) driver.
  * The `device nr' in this file means minor device nr.
- * @author Forrest Y. Yu
- * @date   2005~2008
+ * @author Forrest Y. Yu  
+ * @date   2005~2008 
+ * @modified by HOLLYwyh 2021
  *****************************************************************************
  *****************************************************************************/
 
@@ -154,6 +155,20 @@ PRIVATE void hd_close(int device)
 	hd_info[drive].open_cnt--;
 }
 
+/*****************************************************************************
+*				hd_interval
+******************************************************************************/
+/**
+*<Ring 1> Interval before function interrupt_wait()
+*@author: HOLLYwyh
+******************************************************************************/
+PRIVATE	void hd_interval()
+{
+	printl("");
+	printl("");
+}
+
+
 
 /*****************************************************************************
  *                                hd_rdwt
@@ -194,9 +209,11 @@ PRIVATE void hd_rdwt(MESSAGE * p)
 	int bytes_left = p->CNT;
 	void * la = (void*)va2la(p->PROC_NR, p->BUF);
 
+	hd_interval();		//interval
 	while (bytes_left) {
 		int bytes = min(SECTOR_SIZE, bytes_left);
 		if (p->type == DEV_READ) {
+			hd_interval();		//interval
 			interrupt_wait();
 			port_read(REG_DATA, hdbuf, SECTOR_SIZE);
 			phys_copy(la, (void*)va2la(TASK_HD, hdbuf), bytes);
