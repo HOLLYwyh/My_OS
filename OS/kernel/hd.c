@@ -162,8 +162,8 @@ PRIVATE void hd_close(int device)
 ******************************************************************************/
 PRIVATE	void hd_interval()
 {
-	printl("");
-	printl("");
+	printl("\0\0");
+	printl("\0\0");
 }
 
 
