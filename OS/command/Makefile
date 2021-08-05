@@ -12,7 +12,7 @@ CFLAGS		= -I ../include/ -c -fno-builtin -fno-stack-protector -Wall -m32
 LDFLAGS		= -Ttext 0x1000
 DASMFLAGS	= -D
 LIB		= ../lib/orangescrt.a
-BIN		= echo pwd author
+BIN		= echo pwd author cal
 
 # All Phony Targets
 .PHONY : everything final clean realclean disasm all install
@@ -56,8 +56,18 @@ pwd : pwd.o start.o $(LIB)
 	$(LD) -m elf_i386  $(LDFLAGS) -o $@ $?
 
 # My Program
+# Author
 author.o: author.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 author : author.o start.o $(LIB)
 	$(LD) -m elf_i386  $(LDFLAGS) -o $@ $?
+
+# calculator
+cal.o: cal.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+cal : cal.o start.o $(LIB)
+	$(LD) -m elf_i386  $(LDFLAGS) -o $@ $?
+
+

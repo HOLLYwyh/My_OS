@@ -4,6 +4,7 @@
  * @brief  Orange'S Memory Management.
  * @author Forrest Y. Yu
  * @date   Tue May  6 00:33:39 2008
+ * @modified: Hollywyh
  *****************************************************************************
  *****************************************************************************/
 
@@ -84,9 +85,6 @@ PRIVATE void init_mm()
 	get_boot_params(&bp);
 
 	memory_size = bp.mem_size;
-
-	/* print memory size */
-	printl("{MM} memsize:%dMB\n", memory_size / (1024 * 1024));
 }
 
 /*****************************************************************************

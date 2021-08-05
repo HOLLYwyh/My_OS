@@ -37,8 +37,6 @@ PRIVATE int fs_exit();
  *****************************************************************************/
 PUBLIC void task_fs()
 {
-	printl("{FS} Task FS begins.\n");
-
 	init_fs();
 
 	while (1) {
@@ -99,7 +97,6 @@ PUBLIC void task_fs()
 		case UNLINK:
 			dump_fd_graph("%s just finished. (pid:%d)",
 				      msg_name[msgtype], src);
-			//panic("");
 		case OPEN:
 		case CLOSE:
 		case READ:

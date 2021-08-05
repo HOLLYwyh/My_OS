@@ -3,6 +3,7 @@
                             main.c
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                     Forrest Yu, 2005
+						    HOLLYwyh	2021
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include "type.h"
@@ -27,8 +28,6 @@
  *****************************************************************************/
 PUBLIC int kernel_main()
 {
-	disp_str("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-
 	int i, j, eflags, prio;
         u8  rpl;
         u8  priv; /* privilege */
@@ -329,9 +328,7 @@ void Init()
 	assert(fd_stdin  == 0);
 	int fd_stdout = open("/dev_tty0", O_RDWR);
 	assert(fd_stdout == 1);
-
-	printf("Init() is running ...\n");
-
+   
 	/* extract `cmd.tar' */
 	untar("/cmd.tar");
 			
@@ -342,10 +339,10 @@ void Init()
 	for (i = 0; i < sizeof(tty_list) / sizeof(tty_list[0]); i++) {
 		int pid = fork();
 		if (pid != 0) { /* parent process */
-			printf("[parent is running, child pid:%d]\n", pid);
+			//printf("[parent is running, child pid:%d]\n", pid);
 		}
 		else {	/* child process */
-			printf("[child is running, pid:%d]\n", getpid());
+			//printf("[child is running, pid:%d]\n", getpid());
 			close(fd_stdin);
 			close(fd_stdout);
 			

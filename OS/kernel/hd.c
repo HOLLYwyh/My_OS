@@ -35,7 +35,6 @@ PRIVATE void	partition		(int device, int style);
 PRIVATE int	waitfor			(int mask, int val, int timeout);
 PRIVATE void	interrupt_wait		();
 PRIVATE	void	hd_identify		(int drive);
-PRIVATE void	print_identify_info	(u16* hdinfo);
 
 PRIVATE	u8		hd_status;
 PRIVATE	u8		hdbuf[SECTOR_SIZE * 2];
@@ -104,7 +103,7 @@ PRIVATE void init_hd()
 
 	/* Get the number of drives from the BIOS data area */
 	u8 * pNrDrives = (u8*)(0x475);
-	printl("{HD} NrDrives:%d.\n", *pNrDrives);
+	
 	assert(*pNrDrives);
 
 	put_irq_handler(AT_WINI_IRQ, hd_handler);
@@ -135,7 +134,6 @@ PRIVATE void hd_open(int device)
 
 	if (hd_info[drive].open_cnt++ == 0) {
 		partition(drive * (NR_PART_PER_DRIVE + 1), P_PRIMARY);
-		/* print_hdinfo(&hd_info[drive]); */
 	}
 }
 
@@ -357,39 +355,6 @@ PRIVATE void partition(int device, int style)
 	}
 }
 
-/* /\***************************************************************************** */
-/*  *                                print_hdinfo */
-/*  *****************************************************************************\/ */
-/* /\** */
-/*  * <Ring 1> Print disk info. */
-/*  *  */
-/*  * @param hdi  Ptr to struct hd_info. */
-/*  *****************************************************************************\/ */
-/* PRIVATE void print_hdinfo(struct hd_info * hdi) */
-/* { */
-/* 	int i; */
-/* 	for (i = 0; i < NR_PART_PER_DRIVE + 1; i++) { */
-/* 		printl("{HD} %sPART_%d: base %d(0x%x), size %d(0x%x) (in sector)\n", */
-/* 		       i == 0 ? " " : "     ", */
-/* 		       i, */
-/* 		       hdi->primary[i].base, */
-/* 		       hdi->primary[i].base, */
-/* 		       hdi->primary[i].size, */
-/* 		       hdi->primary[i].size); */
-/* 	} */
-/* 	for (i = 0; i < NR_SUB_PER_DRIVE; i++) { */
-/* 		if (hdi->logical[i].size == 0) */
-/* 			continue; */
-/* 		printl("{HD}          " */
-/* 		       "%d: base %d(0x%x), size %d(0x%x) (in sector)\n", */
-/* 		       i, */
-/* 		       hdi->logical[i].base, */
-/* 		       hdi->logical[i].base, */
-/* 		       hdi->logical[i].size, */
-/* 		       hdi->logical[i].size); */
-/* 	} */
-/* } */
-
 /*****************************************************************************
  *                                hd_identify
  *****************************************************************************/
@@ -407,55 +372,11 @@ PRIVATE void hd_identify(int drive)
 	interrupt_wait();
 	port_read(REG_DATA, hdbuf, SECTOR_SIZE);
 
-	print_identify_info((u16*)hdbuf);
-
 	u16* hdinfo = (u16*)hdbuf;
 
 	hd_info[drive].primary[0].base = 0;
 	/* Total Nr of User Addressable Sectors */
 	hd_info[drive].primary[0].size = ((int)hdinfo[61] << 16) + hdinfo[60];
-}
-
-/*****************************************************************************
- *                            print_identify_info
- *****************************************************************************/
-/**
- * <Ring 1> Print the hdinfo retrieved via ATA_IDENTIFY command.
- * 
- * @param hdinfo  The buffer read from the disk i/o port.
- *****************************************************************************/
-PRIVATE void print_identify_info(u16* hdinfo)
-{
-	int i, k;
-	char s[64];
-
-	struct iden_info_ascii {
-		int idx;
-		int len;
-		char * desc;
-	} iinfo[] = {{10, 20, "HD SN"}, /* Serial number in ASCII */
-		     {27, 40, "HD Model"} /* Model number in ASCII */ };
-
-	for (k = 0; k < sizeof(iinfo)/sizeof(iinfo[0]); k++) {
-		char * p = (char*)&hdinfo[iinfo[k].idx];
-		for (i = 0; i < iinfo[k].len/2; i++) {
-			s[i*2+1] = *p++;
-			s[i*2] = *p++;
-		}
-		s[i*2] = 0;
-		printl("{HD} %s: %s\n", iinfo[k].desc, s);
-	}
-
-	int capabilities = hdinfo[49];
-	printl("{HD} LBA supported: %s\n",
-	       (capabilities & 0x0200) ? "Yes" : "No");
-
-	int cmd_set_supported = hdinfo[83];
-	printl("{HD} LBA48 supported: %s\n",
-	       (cmd_set_supported & 0x0400) ? "Yes" : "No");
-
-	int sectors = ((int)hdinfo[61] << 16) + hdinfo[60];
-	printl("{HD} HD size: %dMB\n", sectors * 512 / 1000000);
 }
 
 /*****************************************************************************
