@@ -317,8 +317,6 @@ LABEL_PM_START:
 	mov	esp, TopOfStack
 
 	call	DispMemInfo
-;;; 	call	DispReturn
-;;; 	call	DispHDInfo	; int 13h 读出的硬盘 geometry 好像有点不对头，不知道为什么，干脆不管它了
 	call	SetupPaging
 
 	;mov	ah, 0Fh				; 0000: 黑底    1111: 白字
@@ -339,74 +337,6 @@ LABEL_PM_START:
 	;***************************************************************
 	jmp	SelectorFlatC:KRNL_ENT_PT_PHY_ADDR	; 正式进入内核 *
 	;***************************************************************
-	; 内存看上去是这样的：
-	;              ┃                                    ┃
-	;              ┃                 .                  ┃
-	;              ┃                 .                  ┃
-	;              ┃                 .                  ┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃■■■■■■■■■■■■■■■■■■┃
-	;              ┃■■■■■■Page  Tables■■■■■■┃
-	;              ┃■■■■■(大小由LOADER决定)■■■■┃
-	;    00101000h ┃■■■■■■■■■■■■■■■■■■┃ PAGE_TBL_BASE
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃■■■■■■■■■■■■■■■■■■┃
-	;    00100000h ┃■■■■Page Directory Table■■■■┃ PAGE_DIR_BASE  <- 1M
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃□□□□□□□□□□□□□□□□□□┃
-	;       F0000h ┃□□□□□□□System ROM□□□□□□┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃□□□□□□□□□□□□□□□□□□┃
-	;       E0000h ┃□□□□Expansion of system ROM □□┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃□□□□□□□□□□□□□□□□□□┃
-	;       C0000h ┃□□□Reserved for ROM expansion□□┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃□□□□□□□□□□□□□□□□□□┃ B8000h ← gs
-	;       A0000h ┃□□□Display adapter reserved□□□┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃□□□□□□□□□□□□□□□□□□┃
-	;       9FC00h ┃□□extended BIOS data area (EBDA)□┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃■■■■■■■■■■■■■■■■■■┃
-	;       90000h ┃■■■■■■■LOADER.BIN■■■■■■┃ somewhere in LOADER ← esp
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃■■■■■■■■■■■■■■■■■■┃
-	;       80000h ┃■■■■■■■KERNEL.BIN■■■■■■┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃■■■■■■■■■■■■■■■■■■┃
-	;       30000h ┃■■■■■■■■KERNEL■■■■■■■┃ 30400h ← KERNEL 入口 (KRNL_ENT_PT_PHY_ADDR)
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃                                    ┃
-	;        7E00h ┃              F  R  E  E            ┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃■■■■■■■■■■■■■■■■■■┃
-	;        7C00h ┃■■■■■■BOOT  SECTOR■■■■■■┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃                                    ┃
-	;         500h ┃              F  R  E  E            ┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃□□□□□□□□□□□□□□□□□□┃
-	;         400h ┃□□□□ROM BIOS parameter area □□┃
-	;              ┣━━━━━━━━━━━━━━━━━━┫
-	;              ┃◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇┃
-	;           0h ┃◇◇◇◇◇◇Int  Vectors◇◇◇◇◇◇┃
-	;              ┗━━━━━━━━━━━━━━━━━━┛ ← cs, ds, es, fs, ss
-	;
-	;
-	;		┏━━━┓		┏━━━┓
-	;		┃■■■┃ 我们使用 	┃□□□┃ 不能使用的内存
-	;		┗━━━┛		┗━━━┛
-	;		┏━━━┓		┏━━━┓
-	;		┃      ┃ 未使用空间	┃◇◇◇┃ 可以覆盖的内存
-	;		┗━━━┛		┗━━━┛
-	;
-	; 注：KERNEL 的位置实际上是很灵活的，可以通过同时改变 LOAD.INC 中的 KRNL_ENT_PT_PHY_ADDR 和 MAKEFILE 中参数 -Ttext 的值来改变。
-	;     比如，如果把 KRNL_ENT_PT_PHY_ADDR 和 -Ttext 的值都改为 0x400400，则 KERNEL 就会被加载到内存 0x400000(4M) 处，入口在 0x400400。
-	;
-
-
-
 
 ; ------------------------------------------------------------------------
 ; 显示 AL 中的数字
@@ -629,54 +559,6 @@ DispMemInfo:
 	pop	esi
 	ret
 ; ---------------------------------------------------------------------------
-
-	
-;;; ; 显示内存信息 --------------------------------------------------------------
-;;; DispHDInfo:
-;;; 	push	eax
-
-;;; 	cmp	dword [dwNrHead], 0FFFFh
-;;; 	je	.nohd
-
-;;; 	push	szCylinder
-;;; 	call	DispStr			; printf("C:");
-;;; 	add	esp, 4
-
-;;; 	push	dword [dwNrCylinder] 	; NR Cylinder
-;;; 	call	DispInt
-;;; 	pop	eax
-
-;;; 	push	szHead
-;;; 	call	DispStr			; printf(" H:");
-;;; 	add	esp, 4
-
-;;; 	push	dword [dwNrHead] 	; NR Head
-;;; 	call	DispInt
-;;; 	pop	eax
-
-;;; 	push	szSector
-;;; 	call	DispStr			; printf(" S:");
-;;; 	add	esp, 4
-
-;;; 	push	dword [dwNrSector] 	; NR Sector
-;;; 	call	DispInt
-;;; 	pop	eax
-	
-;;; 	jmp	.hdinfo_finish
-	
-;;; .nohd:
-;;; 	push	szNOHD
-;;; 	call	DispStr			; printf("No hard drive. System halt.");
-;;; 	add	esp, 4
-;;; 	jmp	$			; 没有硬盘，死在这里
-	
-;;; .hdinfo_finish:
-;;; 	call	DispReturn
-
-;;; 	pop	eax
-;;; 	ret
-;;; ; ---------------------------------------------------------------------------
-
 	
 ; 启动分页机制 --------------------------------------------------------------
 SetupPaging:
@@ -771,15 +653,8 @@ LABEL_DATA:
 ; 字符串
 _szMemChkTitle:			db	"BaseAddrL BaseAddrH LengthLow LengthHigh   Type", 0Ah, 0
 _szRAMSize:			db	"RAM size: ", 0
-;;; _szCylinder			db	"HD Info : C=", 0
-;;; _szHead				db	" H=", 0
-;;; _szSector			db	" S=", 0
-;;; _szNOHD				db	"No hard drive. System halt.", 0
 _szReturn:			db	0Ah, 0
 ;; 变量
-;;; _dwNrCylinder			dd	0
-;;; _dwNrHead			dd	0
-;;; _dwNrSector			dd	0
 _dwMCRNumber:			dd	0	; Memory Check Result
 _dwDispPos:			dd	(80 * 7 + 0) * 2	; 屏幕第 7 行, 第 0 列。
 _dwMemSize:			dd	0
@@ -794,14 +669,7 @@ _MemChkBuf:	times	256	db	0
 ;; 保护模式下使用这些符号
 szMemChkTitle		equ	LOADER_PHY_ADDR + _szMemChkTitle
 szRAMSize		equ	LOADER_PHY_ADDR + _szRAMSize
-;;; szCylinder		equ	LOADER_PHY_ADDR + _szCylinder
-;;; szHead			equ	LOADER_PHY_ADDR + _szHead
-;;; szSector		equ	LOADER_PHY_ADDR + _szSector
-;;; szNOHD			equ	LOADER_PHY_ADDR + _szNOHD
 szReturn		equ	LOADER_PHY_ADDR + _szReturn
-;;; dwNrCylinder		equ	LOADER_PHY_ADDR + _dwNrCylinder
-;;; dwNrHead		equ	LOADER_PHY_ADDR + _dwNrHead
-;;; dwNrSector		equ	LOADER_PHY_ADDR + _dwNrSector
 dwDispPos		equ	LOADER_PHY_ADDR + _dwDispPos
 dwMemSize		equ	LOADER_PHY_ADDR + _dwMemSize
 dwMCRNumber		equ	LOADER_PHY_ADDR + _dwMCRNumber
