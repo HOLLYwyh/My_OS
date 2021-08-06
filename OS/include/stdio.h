@@ -150,5 +150,8 @@ PUBLIC int	stat		(const char *path, struct stat *buf);
 /* lib/syslog.c */
 PUBLIC	int	syslog		(const char *fmt, ...);
 
+/* lib/strequal.c */
+PUBLIC int	strequal	(const char * str1,const char * str2);
+
 
 #endif /* _ORANGES_STDIO_H_ */

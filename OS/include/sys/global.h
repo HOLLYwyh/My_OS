@@ -66,3 +66,4 @@ extern	const int		LOGDISKBUF_SIZE;
 
 /* Created by HOLLYwyh*/
 EXTERN	int			doInstall;
+
