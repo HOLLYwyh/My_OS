@@ -3,6 +3,7 @@
                             global.h
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                     Forrest Yu, 2005
+						    HOLLYwyh	2021
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /* EXTERN is defined as extern except in global.c */
@@ -62,3 +63,6 @@ extern	char *			logbuf;
 extern	const int		LOGBUF_SIZE;
 extern	char *			logdiskbuf;
 extern	const int		LOGDISKBUF_SIZE;
+
+/* Created by HOLLYwyh*/
+EXTERN	int			doInstall;

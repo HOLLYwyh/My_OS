@@ -162,8 +162,16 @@ PRIVATE void hd_close(int device)
 ******************************************************************************/
 PRIVATE	void hd_interval()
 {
-	printl("");
-	printl("");
+	if(doInstall == FALSE)
+	{
+	  printl("\b\b");
+	  printl("\b\b");
+	}
+	else
+	{
+		printl("??");
+		printl("??");
+	}
 }
 
 

@@ -39,9 +39,6 @@ boot_start:
 
 	call	clear_screen
 
-	mov	dh, 0			; "Booting  "
-	call	disp_str		; display the string
-
 	;; read the super block to SUPER_BLK_SEG::0
 	mov	dword [disk_address_packet +  8], ROOT_BASE + 1
 	call	read_sector

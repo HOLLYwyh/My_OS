@@ -291,6 +291,9 @@ enum msgtype {
 
 #define	NR_DEFAULT_FILE_SECTS	2048 /* 2048 * 512 = 1MB */
 
+/*Created by HOLLYwyh*/
+#define TRUE 1
+#define FALSE 0
 
 
 #endif /* _ORANGES_CONST_H_ */

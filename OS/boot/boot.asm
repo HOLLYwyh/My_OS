@@ -44,8 +44,8 @@ LABEL_START:
 	mov	dx, 0184fh		; 右下角: (80, 50)
 	int	10h			; int 10h
 
-	mov	dh, 0			; "Booting  "
-	call	DispStr			; 显示字符串
+	;mov	dh, 0			; "Booting  "
+	;call	DispStr			; 显示字符串
 	
 	xor	ah, ah	; ┓
 	xor	dl, dl	; ┣ 软驱复位
@@ -120,14 +120,14 @@ LABEL_FILENAME_FOUND:			; 找到 LOADER.BIN 后便来到这里继续
 	mov	ax, cx			; ax <- Sector 号
 
 LABEL_GOON_LOADING_FILE:
-	push	ax			; ┓
-	push	bx			; ┃
-	mov	ah, 0Eh			; ┃ 每读一个扇区就在 "Booting  " 后面打一个点, 形成这样的效果:
-	mov	al, '.'			; ┃
-	mov	bl, 0Fh			; ┃ Booting ......
-	int	10h			; ┃
-	pop	bx			; ┃
-	pop	ax			; ┛
+;	push	ax			; ┓
+;	push	bx			; ┃
+;	mov	ah, 0Eh			; ┃ 每读一个扇区就在 "Booting  " 后面打一个点, 形成这样的效果:
+;	mov	al, '.'			; ┃
+;	mov	bl, 0Fh			; ┃ Booting ......
+;	int	10h			; ┃
+;	pop	bx			; ┃
+;	pop	ax			; ┛
 
 	mov	cl, 1
 	call	ReadSector
@@ -143,8 +143,8 @@ LABEL_GOON_LOADING_FILE:
 	jmp	LABEL_GOON_LOADING_FILE
 LABEL_FILE_LOADED:
 
-	mov	dh, 1			; "Ready."
-	call	DispStr			; 显示字符串
+	;mov	dh, 1			; "Ready."
+	;call	DispStr			; 显示字符串
 
 ; *****************************************************************************************************
 	jmp	LOADER_SEG:LOADER_OFF	; 这一句正式跳转到已加载到内存中的 LOADER.BIN 的开始处

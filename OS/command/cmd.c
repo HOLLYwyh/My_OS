@@ -3,6 +3,6 @@
 
 int main(int argc, char* argv[])
 {
-	printf("All commands!\n");
+	printf("All commands\n");
 	return 0;
 }

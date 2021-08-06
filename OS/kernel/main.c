@@ -119,6 +119,7 @@ PUBLIC int kernel_main()
 
 	k_reenter = 0;
 	ticks = 0;
+	doInstall = FALSE;
 
 	p_proc_ready	= proc_table;
 
@@ -195,8 +196,14 @@ void untar(const char * filename)
 					       */
 		if (buf[0] == 0) {
 			if (i == 0)
-				printf("    need not unpack the file.\n");
+			{
+				doInstall = FALSE;
+				printf("\n    need not unpack the file.\n");
+			}
 			break;
+		}
+		else{
+			doInstall = TRUE;
 		}
 		i++;
 
