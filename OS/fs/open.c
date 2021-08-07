@@ -81,14 +81,14 @@ PUBLIC int do_open()
 			pin = create_file(pathname, flags);
 		}
 		else {
-			printl("{FS} file not exists: %s\n", pathname);
+			//printl("{FS} file not exists: %s\n", pathname);
 			return -1;
 		}
 	}
 	else if (flags & O_RDWR) { /* file exists */
 		if ((flags & O_CREAT) && (!(flags & O_TRUNC))) {
 			assert(flags == (O_RDWR | O_CREAT));
-			printl("{FS} file exists: %s\n", pathname);
+			//printl("{FS} file exists: %s\n", pathname);
 			return -1;
 		}
 		assert((flags ==  O_RDWR                     ) ||
@@ -102,7 +102,7 @@ PUBLIC int do_open()
 		pin = get_inode(dir_inode->i_dev, inode_nr);
 	}
 	else { /* file exists, no O_RDWR flag */
-		printl("{FS} file exists: %s\n", pathname);
+		//printl("{FS} file exists: %s\n", pathname);
 		return -1;
 	}
 

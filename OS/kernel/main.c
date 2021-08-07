@@ -180,7 +180,6 @@ struct posix_tar_header
  *****************************************************************************/
 void untar(const char * filename)
 {
-	printf("[extract `%s'\n", filename);
 	int fd = open(filename, O_RDWR);
 	assert(fd != -1);
 
@@ -198,7 +197,6 @@ void untar(const char * filename)
 			if (i == 0)
 			{
 				doInstall = FALSE;
-				printf("\n    need not unpack the file.\n");
 			}
 			break;
 		}
@@ -218,12 +216,9 @@ void untar(const char * filename)
 		int bytes_left = f_len;
 		int fdout = open(phdr->name, O_CREAT | O_RDWR | O_TRUNC);
 		if (fdout == -1) {
-			printf("    failed to extract file: %s\n", phdr->name);
-			printf(" aborted]\n");
 			close(fd);
 			return;
 		}
-		printf("    %s\n", phdr->name);
 		while (bytes_left) {
 			int iobytes = min(chunk, bytes_left);
 			read(fd, buf,
@@ -244,7 +239,6 @@ void untar(const char * filename)
 
 	close(fd);
 
-	printf(" done, %d files extracted]\n", i);
 }
 
 /*****************************************************************************
@@ -289,6 +283,9 @@ void shell(const char * tty_name)
 			p++;
 		} while(ch);
 		argv[argc] = 0;
+
+		if(argv[0][0]==127)  //解决一个文件系统的Bug，当按下回车时另起一行，否则死循环
+			continue;
 
 		int fd = open(argv[0], O_RDWR);
 		if (fd == -1) {
@@ -340,16 +337,14 @@ void Init()
 	untar("/cmd.tar");
 			
 
-	char * tty_list[] = {"/dev_tty1", "/dev_tty2"};
+	char * tty_list[] = {"/dev_tty0","/dev_tty1", "/dev_tty2"};
 
 	int i;
 	for (i = 0; i < sizeof(tty_list) / sizeof(tty_list[0]); i++) {
 		int pid = fork();
 		if (pid != 0) { /* parent process */
-			//printf("[parent is running, child pid:%d]\n", pid);
 		}
 		else {	/* child process */
-			//printf("[child is running, pid:%d]\n", getpid());
 			close(fd_stdin);
 			close(fd_stdout);
 			
@@ -361,7 +356,6 @@ void Init()
 	while (1) {
 		int s;
 		int child = wait(&s);
-		printf("child (%d) exited with status: %d.\n", child, s);
 	}
 
 	assert(0);
