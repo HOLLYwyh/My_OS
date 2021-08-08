@@ -3,6 +3,7 @@
                               vsprintf.c
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                     Forrest Yu, 2005
+						    HOllywyh  , 2021
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include "type.h"
@@ -35,6 +36,66 @@ PRIVATE char* i2a(int val, int base, char ** ps)
 	return *ps;
 }
 
+/*=========================================================================*
+				l2a
+*==========================================================================*/
+PRIVATE char* l2a(long val, int base, char ** ps)
+{
+	long m = val % base;
+	long q = val / base;
+	if (q) 
+	{
+		l2a(q, base, ps);
+	}
+	*(*ps)++ = (m<10) ? (m + '0') : (m - 10 + 'A');
+	return *ps;
+}
+
+/*=========================================================================*
+				f2a
+*==========================================================================*/
+PRIVATE char* f2a(double val, int base,char ** ps,int length)
+{
+	int  integer;//整数部分
+	double fraction;//小数部分
+	double temp_fraction;
+	int m;
+	int fra_length = 0; //小数部分的位数
+	int max_size = 100;  //所能处理的最大精度，主要为了防止无限小数
+
+	integer = (int)val;
+	fraction = val - integer;
+	//计算整数部分
+	i2a(integer,base,ps);
+	//小数部分
+	//首先计算小数的位数
+	temp_fraction = fraction;
+	while(temp_fraction)
+	{
+		fra_length ++ ;
+		m = (int)(temp_fraction * base);
+		temp_fraction = temp_fraction * base - (double)m;
+		if(fra_length >= max_size)
+		{
+			break;
+		}
+	}
+	fra_length = (fra_length <= length) ? fra_length : length;
+	//小数点
+	if(fra_length > 0)
+	{
+		*(*ps)++ = '.';
+	}
+	//采用截短法进行输出
+	for(int i=0; i<fra_length; i++)
+	{
+	    	m = (int)(fraction * base);
+	    	fraction = fraction* base - (double)m;
+	    	*(*ps)++ =(m < 10) ? (m + '0') : (m- 10 + 'A');
+	}
+	return *ps;
+}
+
 
 /*======================================================================*
                                 vsprintf
@@ -45,16 +106,20 @@ PRIVATE char* i2a(int val, int base, char ** ps)
 PUBLIC int vsprintf(char *buf, const char *fmt, va_list args)
 {
 	char*	p;
+	char*   next;
 
 	va_list	p_next_arg = args;
-	int	m;
+	int	m;   //读取int相关的值  %x %d
+	double  db;  //读取double相关的值 %f %lf
+	long	l;   //读取long相关的值   %l
+	int 	is_combine = 0;   //是否有复合输出
 
 	char	inner_buf[STR_DEFAULT_LEN];
 	char	cs;
 	int	align_nr;
 
 	for (p=buf;*fmt;fmt++) {
-		if (*fmt != '%') {
+		if ((*fmt != '%')&&(!is_combine)) {
 			*p++ = *fmt;
 			continue;
 		}
@@ -101,6 +166,42 @@ PUBLIC int vsprintf(char *buf, const char *fmt, va_list args)
 				*q++ = '-';
 			}
 			i2a(m, 10, &q);
+			p_next_arg += 4;
+			break;
+		case 'l':
+			next = fmt + 1;
+			if(*next == 'f')
+			{
+				is_combine = 1;
+				fmt--;
+				continue;
+			}
+			else
+			{			
+				l = *((long*)p_next_arg);
+				if(m < 0){
+					m = m * (-1);
+					*q++ = '-';
+				}
+				l2a(m, 10, &q);
+				p_next_arg +=4;
+				break;
+			}
+		case 'f':    //新增输出浮点数
+			db = *((double*)p_next_arg);
+			if (db < 0) {
+				db = db * (-1);
+				*q++ = '-';
+			}
+			if(is_combine)  //说明输出的是double
+			{
+				is_combine = 0;
+				f2a(db, 10, &q, 6);
+			}
+			else
+			{
+				f2a(db, 10, &q, 4);
+			}
 			p_next_arg += 4;
 			break;
 		case 's':
