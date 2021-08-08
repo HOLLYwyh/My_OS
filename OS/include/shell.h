@@ -10,9 +10,10 @@
 #ifndef _SHELL_H_
 #define _SHELL_H_
 
-// "-h" and "--help"
-char 		help1[3] = {'-','h'};
-char		help2[7] = {'-','-','h','e','l','p'};
+char help1[3];
+char help2[7];
 
+// boot animation
+void boot_animation();
 
 #endif

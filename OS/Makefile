@@ -30,7 +30,7 @@ LIB		= lib/orangescrt.a
 OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
 			kernel/clock.o kernel/keyboard.o kernel/tty.o kernel/console.o\
 			kernel/i8259.o kernel/global.o kernel/protect.o kernel/proc.o\
-			kernel/systask.o kernel/hd.o\
+			kernel/systask.o kernel/hd.o kernel/shell.o\
 			kernel/kliba.o kernel/klib.o\
 			lib/syslog.o\
 			mm/main.o mm/forkexit.o mm/exec.o\
@@ -114,6 +114,9 @@ kernel/keyboard.o: kernel/keyboard.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 kernel/tty.o: kernel/tty.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+kernrl/shell.o: kernel/shell.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 kernel/console.o: kernel/console.c

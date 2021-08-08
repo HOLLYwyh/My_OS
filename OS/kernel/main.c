@@ -335,7 +335,7 @@ void Init()
    
 	/* extract `cmd.tar' */
 	untar("/cmd.tar");
-			
+   
 
 	char * tty_list[] = {"/dev_tty0","/dev_tty1", "/dev_tty2"};
 

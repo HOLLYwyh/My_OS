@@ -19,6 +19,7 @@
 #include "global.h"
 #include "keyboard.h"
 #include "proto.h"
+#include "shell.h"
 
 /* #define __TTY_DEBUG__ */
 
@@ -54,6 +55,11 @@ PUBLIC void init_screen(TTY* tty)
 	tty->console->cursor = tty->console->crtc_start = tty->console->orig;
 	tty->console->is_full = 0;
 
+	// boot animation
+	if(nr_tty == 0)
+	{
+		boot_animation();
+	}
 	/* 
 	 * `?' in this string will be replaced with 0, 1, 2, ...
 	 */

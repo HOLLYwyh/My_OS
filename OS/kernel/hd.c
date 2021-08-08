@@ -164,8 +164,8 @@ PRIVATE	void hd_interval()
 {
 	if(doInstall == FALSE)
 	{
-	  printl("");
-	  printl("");
+	  printl("??");
+	  printl("\b\b");
 	}
 	else
 	{
