@@ -17,7 +17,7 @@
 #include "keyboard.h"
 #include "proto.h"
 
-PUBLIC int vsscanf(char* buf, const char* fmt, va_list args)
+PUBLIC int vsscanf(char* buf, const char* fmt, int argc, char* argv[], va_list args)
 {
 	return 0;
 }

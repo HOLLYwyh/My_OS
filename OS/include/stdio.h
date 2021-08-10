@@ -104,7 +104,7 @@ PUBLIC	int	sprintf(char *buf, const char *fmt, ...);
 /* scanf.c */
 PUBLIC int 	scanf(const char *fmt, ...);
 /* vsscanf.c */
-PUBLIC int 	vsscanf(char *buf, const char *fmt, va_list args);
+PUBLIC int 	vsscanf(char *buf, const char *fmt, int argc, char* argv[], va_list args);
 
 /*--------*/
 /* 库函数 */
