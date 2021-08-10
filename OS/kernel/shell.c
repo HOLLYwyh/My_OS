@@ -9,10 +9,6 @@
 
 #include "shell.h"
 
-// "-h" and "--help"
-char 		help1[3] = {'-','h'};
-char		help2[7] = {'-','-','h','e','l','p'};
-
 // boot animation
 void boot_animation()
 {

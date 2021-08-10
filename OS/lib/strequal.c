@@ -18,7 +18,21 @@
 #include "console.h"
 #include "global.h"
 #include "proto.h"
+#include "shell.h"
 
+// "-h" and "--help"
+void init_help()
+{
+	help1[0] = help2[0] = '-';
+	help1[1] = 'h';
+	help1[2] = 0;
+	help2[1] = '-';
+	help2[2] = 'h';
+	help2[3] = 'e';
+	help2[4] = 'l';
+	help2[5] = 'p';
+	help2[6] = 0;
+}
 
 /*****************************************************************************
  *                                strequal
@@ -33,6 +47,7 @@
 
 PUBLIC int strequal(const char* str1,const char* str2)
 {
+	init_help();
 	//1.0可能还有需要改进的地方
 	int result = 0;
 	int tag = 0;

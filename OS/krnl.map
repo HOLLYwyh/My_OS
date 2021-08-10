@@ -64,6 +64,7 @@ inode_table         0xb00             kernel/global.o
 task_stack          0x24000           kernel/global.o
 k_reenter           0x4               kernel/global.o
 gdt                 0x400             kernel/global.o
+help2               0x7               kernel/console.o
 current_console     0x4               kernel/global.o
 pcaller             0x4               kernel/global.o
 tty_table           0xc6c             kernel/global.o
@@ -82,6 +83,7 @@ super_block         0x1e0             kernel/global.o
 PARTITION_ENTRY     0x10              kernel/hd.o
 ticks               0x4               kernel/global.o
 console_table       0x3c              kernel/global.o
+help1               0x3               kernel/console.o
 irq_table           0x40              kernel/global.o
 p_proc_ready        0x4               kernel/global.o
 proc_table          0x3af8            kernel/global.o
@@ -932,7 +934,7 @@ LOAD lib/orangescrt.a
  *(.igot.plt)
  .igot.plt      0x000000000001400c        0x0 kernel/kernel.o
 
-.data           0x0000000000014020      0x817
+.data           0x0000000000014020      0x80c
  *(.data .data.* .gnu.linkonce.d.*)
  .data          0x0000000000014020        0x2 kernel/kernel.o
  .data          0x0000000000014022        0x0 kernel/start.o
@@ -960,40 +962,38 @@ LOAD lib/orangescrt.a
  .data          0x000000000001482c        0x0 kernel/proc.o
  .data          0x000000000001482c        0x0 kernel/systask.o
  .data          0x000000000001482c        0x0 kernel/hd.o
- .data          0x000000000001482c        0xb kernel/shell.o
-                0x000000000001482c                help1
-                0x0000000000014830                help2
- .data          0x0000000000014837        0x0 kernel/klib.o
- .data          0x0000000000014837        0x0 lib/syslog.o
- .data          0x0000000000014837        0x0 mm/main.o
- .data          0x0000000000014837        0x0 mm/forkexit.o
- .data          0x0000000000014837        0x0 mm/exec.o
- .data          0x0000000000014837        0x0 fs/main.o
- .data          0x0000000000014837        0x0 fs/open.o
- .data          0x0000000000014837        0x0 fs/misc.o
- .data          0x0000000000014837        0x0 fs/read_write.o
- .data          0x0000000000014837        0x0 fs/link.o
- .data          0x0000000000014837        0x0 fs/disklog.o
- .data          0x0000000000014837        0x0 lib/orangescrt.a(printf.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(vsprintf.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(misc.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(open.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(read.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(write.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(close.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(lseek.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(getpid.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(stat.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(fork.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(wait.o)
- .data          0x0000000000014837        0x0 lib/orangescrt.a(exec.o)
+ .data          0x000000000001482c        0x0 kernel/shell.o
+ .data          0x000000000001482c        0x0 kernel/klib.o
+ .data          0x000000000001482c        0x0 lib/syslog.o
+ .data          0x000000000001482c        0x0 mm/main.o
+ .data          0x000000000001482c        0x0 mm/forkexit.o
+ .data          0x000000000001482c        0x0 mm/exec.o
+ .data          0x000000000001482c        0x0 fs/main.o
+ .data          0x000000000001482c        0x0 fs/open.o
+ .data          0x000000000001482c        0x0 fs/misc.o
+ .data          0x000000000001482c        0x0 fs/read_write.o
+ .data          0x000000000001482c        0x0 fs/link.o
+ .data          0x000000000001482c        0x0 fs/disklog.o
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(printf.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(vsprintf.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(misc.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(open.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(read.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(write.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(close.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(lseek.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(getpid.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(stat.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(fork.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(wait.o)
+ .data          0x000000000001482c        0x0 lib/orangescrt.a(exec.o)
 
 .data1
  *(.data1)
-                0x0000000000014837                _edata = .
+                0x000000000001482c                _edata = .
                 [!provide]                        PROVIDE (edata = .)
-                0x0000000000014837                . = .
-                0x0000000000014837                __bss_start = .
+                0x000000000001482c                . = .
+                0x000000000001482c                __bss_start = .
 
 .bss            0x0000000000014840    0x2b788
  *(.dynbss)
@@ -1039,8 +1039,10 @@ LOAD lib/orangescrt.a
  .bss           0x0000000000015908        0x0 lib/orangescrt.a(wait.o)
  .bss           0x0000000000015908        0x0 lib/orangescrt.a(exec.o)
  *(COMMON)
- COMMON         0x0000000000015908        0x0 kernel/console.o
- *fill*         0x0000000000015908       0x18 
+ COMMON         0x0000000000015908        0xa kernel/console.o
+                0x0000000000015908                help2
+                0x000000000001590f                help1
+ *fill*         0x0000000000015912        0xe 
  COMMON         0x0000000000015920    0x2a698 kernel/global.o
                 0x0000000000015920                idt_ptr
                 0x0000000000015940                inode_table

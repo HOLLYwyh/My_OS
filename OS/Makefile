@@ -236,3 +236,6 @@ data_structure/stack.o : data_structure/stack.c
 
 data_structure/queue.o : data_structure/queue.c
 	$(CC) $(CFLAGS) -o $@ $<
+
+lib/strequal.o : lib/strequal.c
+	$(CC) $(CFLAGS) -o $@ $<

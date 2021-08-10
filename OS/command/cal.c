@@ -573,7 +573,7 @@ int main(int argc, char* argv[])
 			printf("\t\t**                Help                **\n");
 			printf("\t\t****************************************\n");  //40个*
 			printf("\t\t** cal : A calculator.                **\n");
-			printf("\t\t** For example : cal 1+1= 	     **\n");
+			printf("\t\t** For example : cal 1+1=(or 1+1)     **\n");
 			printf("\t\t** You will get : 2		   **\n");
 			printf("\t\t****************************************\n");  //40个*
 
