@@ -17,7 +17,6 @@ LD		= ld
 ASMBFLAGS	= -I boot/include/
 ASMKFLAGS	= -I include/ -I include/sys/ -f elf
 CFLAGS		= -I include/ -I include/sys/ -c -fno-builtin -Wall -m32 -fno-stack-protector
-#CFLAGS		= -I include/ -c -fno-builtin -fno-stack-protector -fpack-struct -Wall
 LDFLAGS		= -Ttext $(ENTRYPOINT) -Map krnl.map
 DASMFLAGS	= -D
 ARFLAGS		= rcs
@@ -44,6 +43,9 @@ LOBJS		=  lib/syscall.o\
 			lib/lseek.o\
 			lib/getpid.o lib/stat.o\
 			lib/fork.o lib/exit.o lib/wait.o lib/exec.o lib/strequal.o
+# DATA_STRUCTURE
+DSOBJS		=  data_structure/stack.o data_structure/queue.o
+
 DASMOUTPUT	= kernel.bin.asm
 
 # All Phony Targets
@@ -60,10 +62,10 @@ all : realclean everything
 image : realclean everything clean buildimg
 
 clean :
-	rm -f $(OBJS) $(LOBJS)
+	rm -f $(OBJS) $(LOBJS) $(DSOBJS)
 
 realclean :
-	rm -f $(OBJS) $(LOBJS) $(LIB) $(ORANGESBOOT) $(ORANGESKERNEL)
+	rm -f $(OBJS) $(DSOBJS) $(LOBJS) $(LIB) $(ORANGESBOOT) $(ORANGESKERNEL)
 
 disasm :
 	$(DASM) $(DASMFLAGS) $(ORANGESKERNEL) > $(DASMOUTPUT)
@@ -92,7 +94,7 @@ boot/hdloader.bin : boot/hdloader.asm boot/include/load.inc boot/include/fat12hd
 $(ORANGESKERNEL) : $(OBJS) $(LIB)
 	$(LD) -m elf_i386 $(LDFLAGS) -o $(ORANGESKERNEL) $^
 
-$(LIB) : $(LOBJS)
+$(LIB) : $(LOBJS) $(DSOBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 kernel/kernel.o : kernel/kernel.asm
@@ -221,3 +223,9 @@ fs/link.o: fs/link.c
 fs/disklog.o: fs/disklog.c
 	$(CC) $(CFLAGS) -o $@ $<
 
+# Created by HOLLYwyh
+data_structure/stack.o : data_structure/stack.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+data_structure/queue.o : data_structure/queue.c
+	$(CC) $(CFLAGS) -o $@ $<

@@ -31,10 +31,10 @@ void boot_animation()
 	printl("*    * *           **    * *            * You can input 'cmd' to See           *");
 	printl("*      *     **   **     *                 All commands in the OS.             *");
 	printl("*       *      ***      *                                                      *");
-	printl("*       * *     *     * *               * Pree F4 to see details.              *");
+	printl("*       * *     *     * *               * Press F4 to see details.             *");
 	printl("*       * * *       * * *                                                      *");
 	printl("*            * * * *                    * You can visit github.com/HOLLYwyh    *");
-	printl("*             *****                       www.github.com/HOLLYwyhOr            *");
+	printl("*             *****                       www.github.com/HOLLYwyh              *");
 	printl("*              ***                        Or email 1053790247@qq.com           *");
 	printl("*               *                         To contact author.                   *");
 	printl("********************************************************************************");//80个*
