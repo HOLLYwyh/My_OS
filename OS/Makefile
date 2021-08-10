@@ -38,6 +38,7 @@ OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
 			fs/disklog.o
 LOBJS		=  lib/syscall.o\
 			lib/printf.o lib/vsprintf.o\
+			lib/scanf.o lib/vsscanf.o\
 			lib/string.o lib/misc.o\
 			lib/open.o lib/read.o lib/write.o lib/close.o lib/unlink.o\
 			lib/lseek.o\
@@ -140,6 +141,12 @@ lib/printf.o: lib/printf.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 lib/vsprintf.o: lib/vsprintf.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+lib/scanf.o: lib/scanf.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+lib/vsscanf.o: lib/vsscanf.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 kernel/systask.o: kernel/systask.c
