@@ -179,11 +179,11 @@ PUBLIC int vsprintf(char *buf, const char *fmt, va_list args)
 			else
 			{			
 				l = *((long*)p_next_arg);
-				if(m < 0){
-					m = m * (-1);
+				if(l < 0){
+					l = l * (-1);
 					*q++ = '-';
 				}
-				l2a(m, 10, &q);
+				l2a(l, 10, &q);
 				p_next_arg +=4;
 				break;
 			}
