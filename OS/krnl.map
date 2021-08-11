@@ -67,6 +67,7 @@ gdt                 0x400             kernel/global.o
 help2               0x7               kernel/console.o
 current_console     0x4               kernel/global.o
 pcaller             0x4               kernel/global.o
+all                 0x6               kernel/console.o
 tty_table           0xc6c             kernel/global.o
 tss                 0x68              kernel/global.o
 fs_msg              0x30              kernel/global.o
@@ -1039,10 +1040,11 @@ LOAD lib/orangescrt.a
  .bss           0x0000000000015908        0x0 lib/orangescrt.a(wait.o)
  .bss           0x0000000000015908        0x0 lib/orangescrt.a(exec.o)
  *(COMMON)
- COMMON         0x0000000000015908        0xa kernel/console.o
+ COMMON         0x0000000000015908       0x11 kernel/console.o
                 0x0000000000015908                help2
-                0x000000000001590f                help1
- *fill*         0x0000000000015912        0xe 
+                0x0000000000015910                all
+                0x0000000000015916                help1
+ *fill*         0x0000000000015919        0x7 
  COMMON         0x0000000000015920    0x2a698 kernel/global.o
                 0x0000000000015920                idt_ptr
                 0x0000000000015940                inode_table

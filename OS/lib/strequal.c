@@ -34,6 +34,19 @@ void init_help()
 	help2[6] = 0;
 }
 
+// "--all"
+void init_all()
+{
+	all[0] = '-';
+	all[1] = '-';
+	all[2] = 'a';
+	all[3] =  'l';
+	all[4] = 'l';
+	all[5] = 0;
+}
+
+
+
 /*****************************************************************************
  *                                strequal
  *****************************************************************************/
@@ -48,6 +61,7 @@ void init_help()
 PUBLIC int strequal(const char* str1,const char* str2)
 {
 	init_help();
+	init_all();
 	//1.0可能还有需要改进的地方
 	int result = 0;
 	int tag = 0;

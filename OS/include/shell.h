@@ -13,6 +13,9 @@
 char help1[3];
 char help2[7];
 
+char all[6];
+
+
 // boot animation
 void boot_animation();
 
