@@ -27,7 +27,7 @@ void boot_animation()
 	printl("*    * *           **    * *            * You can input 'cmd' to See           *");
 	printl("*      *     **   **     *                 All commands in the OS.             *");
 	printl("*       *      ***      *                                                      *");
-	printl("*       * *     *     * *               * Press F4 to see details.             *");
+	printl("*       * *     *     * *               * Press 'details' to see details.      *");
 	printl("*       * * *       * * *                                                      *");
 	printl("*            * * * *                    * You can visit github.com/HOLLYwyh    *");
 	printl("*             *****                       www.github.com/HOLLYwyh              *");

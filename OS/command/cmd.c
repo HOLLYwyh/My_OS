@@ -13,6 +13,7 @@ int main(int argc, char* argv[])
 	printf("\t\t** 5 - cmd : All Commands.            **\n");
 	printf("\t\t** 6 - ps : Process related.          **\n");
 	printf("\t\t** 7 - game : Games related.          **\n");
+	printf("\t\t** 8 - details:OS's details.          **\n");
 	printf("\t\t****************************************\n");//40个*
 
 	return 0;

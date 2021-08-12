@@ -290,9 +290,8 @@ void shell(const char * tty_name)
 		int fd = open(argv[0], O_RDWR);
 		if (fd == -1) {
 			if (rdbuf[0]) {
-				write(1, "{", 1);
 				write(1, rdbuf, r);
-				write(1, "}\n", 2);
+				write(1,": command not found\n",20);
 			}
 		}
 		else {
