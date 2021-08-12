@@ -47,6 +47,9 @@ LOBJS		=  lib/syscall.o\
 # DATA_STRUCTURE
 DSOBJS		=  data_structure/stack.o data_structure/queue.o
 
+# GAME
+GOBJS		=  game/draughts.o
+
 DASMOUTPUT	= kernel.bin.asm
 
 # All Phony Targets
@@ -63,10 +66,10 @@ all : realclean everything
 image : realclean everything clean buildimg
 
 clean :
-	rm -f $(OBJS) $(LOBJS) $(DSOBJS)
+	rm -f $(OBJS) $(LOBJS) $(DSOBJS) $(GOBJS)
 
 realclean :
-	rm -f $(OBJS) $(DSOBJS) $(LOBJS) $(LIB) $(ORANGESBOOT) $(ORANGESKERNEL)
+	rm -f $(OBJS) $(DSOBJS) $(GOBJS) $(LOBJS) $(LIB) $(ORANGESBOOT) $(ORANGESKERNEL)
 
 disasm :
 	$(DASM) $(DASMFLAGS) $(ORANGESKERNEL) > $(DASMOUTPUT)
@@ -95,7 +98,7 @@ boot/hdloader.bin : boot/hdloader.asm boot/include/load.inc boot/include/fat12hd
 $(ORANGESKERNEL) : $(OBJS) $(LIB)
 	$(LD) -m elf_i386 $(LDFLAGS) -o $(ORANGESKERNEL) $^
 
-$(LIB) : $(LOBJS) $(DSOBJS)
+$(LIB) : $(LOBJS) $(DSOBJS) $(GOBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 kernel/kernel.o : kernel/kernel.asm
@@ -238,4 +241,7 @@ data_structure/queue.o : data_structure/queue.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 lib/strequal.o : lib/strequal.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+game/draughts.o : game/draughts.c
 	$(CC) $(CFLAGS) -o $@ $<
