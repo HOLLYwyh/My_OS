@@ -16,6 +16,20 @@ int main(int argc, char* argv[])
 		//help: -h or --help
 		if((strequal(array[1],help1))||(strequal(array[1],help2)))
 		{
+			printf("\t\t****************************************\n");  //40个*
+			printf("\t\t**                Help                **\n");
+			printf("\t\t****************************************\n");  //40个*
+			printf("\t\t** ps : All Process Related           **\n");
+			printf("\t\t** 			           **\n");
+			printf("\t\t** ps --all: see all process          **\n");
+			printf("\t\t** 			           **\n");
+			printf("\t\t** ps  -h (or --help)                 **\n");
+			printf("\t\t**      -- help about the process     **\n");
+			printf("\t\t** 				   **\n");
+			printf("\t\t** ps [--usr] : see user process      **\n");
+			printf("\t\t** 				   **\n");
+			printf("\t\t** ps --sys : see system process      **\n");
+			printf("\t\t****************************************\n");  //40个*
 		}
 		//all: --all
 		else if(strequal(array[1],all))
