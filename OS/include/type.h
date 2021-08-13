@@ -3,6 +3,7 @@
                             type.h
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                     Forrest Yu, 2005
+						    HOLLYWYH    2021
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #ifndef	_ORANGES_TYPE_H_
@@ -51,6 +52,19 @@ struct mess3 {
 	void*	m3p1;
 	void*	m3p2;
 };
+struct rt_proc{
+	int pid;
+	char name[16];
+	int p_flags;
+	int p_parent;
+	int priority;
+};
+struct procpos{
+	int sysbegin;
+	int sysend;    //左开右闭区间
+	int userbegin;
+	int userend;   //左开右闭区间
+};
 typedef struct {
 	int source;
 	int type;
@@ -59,6 +73,8 @@ typedef struct {
 		struct mess2 m2;
 		struct mess3 m3;
 	} u;
+	struct rt_proc proc_table[36];    //这里要和proc.h保持一致
+	struct procpos pos;
 } MESSAGE;
 
 /* i have no idea of where to put this struct, so i put it here */

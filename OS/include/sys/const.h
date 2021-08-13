@@ -3,6 +3,7 @@
                             const.h
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                     Forrest Yu, 2005
+						    HOLLYwyh 2021
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #ifndef	_ORANGES_CONST_H_
@@ -189,7 +190,11 @@ enum msgtype {
 	DEV_CLOSE,
 	DEV_READ,
 	DEV_WRITE,
-	DEV_IOCTL
+	DEV_IOCTL,
+
+	/*Created by Hollywyh*/
+	/*proc*/
+	GET_PROC = 2001
 };
 
 /* macros for messages */

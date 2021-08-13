@@ -3,6 +3,7 @@
  * @file   stdio.h
  * @brief  
  * @author Forrest Y. Yu
+ * @modified HOLLYwyh
  * @date   2008
  *****************************************************************************
  *****************************************************************************/
@@ -37,6 +38,12 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 #define SEEK_END	3
 
 #define	MAX_PATH	128
+
+//Proc_table
+#define ALL_PROC	1
+#define SYS_PROC 	2
+#define USER_PROC	3
+#define PROC_NUM	36   //这里需要和proc.h保持一致！！！
 
 /**
  * @struct stat
@@ -157,6 +164,9 @@ PUBLIC	int	syslog		(const char *fmt, ...);
 
 /* lib/strequal.c */
 PUBLIC int	strequal	(const char * str1,const char * str2);
+
+/* lib/getproc.c */
+PUBLIC void 	getproc(struct rt_proc* table,int type, int* begin, int * end);
 
 
 #endif /* _ORANGES_STDIO_H_ */

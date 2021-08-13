@@ -79,9 +79,9 @@ struct task {
 #define proc2pid(x) (x - proc_table)
 
 /* Number of tasks & processes */
-#define NR_TASKS		5
-#define NR_PROCS		32
-#define NR_NATIVE_PROCS		4
+#define NR_TASKS		5					//系统进程数
+#define NR_PROCS		32					//用户进程总数(一共可以有36个进程)
+#define NR_NATIVE_PROCS		4					//系统最开始启动时的用户进程数
 #define FIRST_PROC		proc_table[0]
 #define LAST_PROC		proc_table[NR_TASKS + NR_PROCS - 1]
 

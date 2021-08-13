@@ -3,6 +3,7 @@
  * @file   systask.c
  * @brief  
  * @author Forrest Y. Yu
+ * @modified HOLLYwyh
  * @date   2007
  *****************************************************************************
  *****************************************************************************/
@@ -22,7 +23,7 @@
 
 PRIVATE int read_register(char reg_addr);
 PRIVATE u32 get_rtc_time(struct time *t);
-
+PRIVATE void do_getproc(MESSAGE* msg);
 /*****************************************************************************
  *                                task_sys
  *****************************************************************************/
@@ -48,6 +49,11 @@ PUBLIC void task_sys()
 			msg.type = SYSCALL_RET;
 			msg.PID = src;
 			send_recv(SEND, src, &msg);
+			break;
+		case GET_PROC:
+			msg.type = SYSCALL_RET;
+			do_getproc(&msg);
+			send_recv(SEND,src,&msg);
 			break;
 		case GET_RTC_TIME:
 			msg.type = SYSCALL_RET;
@@ -113,3 +119,43 @@ PRIVATE int read_register(char reg_addr)
 	return in_byte(CLK_IO);
 }
 
+PRIVATE void do_getproc(MESSAGE* msg)
+{
+	//系统进程
+	msg->pos.sysbegin = msg->pos.sysend = 0;
+	for(int i=0;i<NR_TASKS;i++)
+	{
+		if(proc_table[i].p_flags != FREE_SLOT)
+		{
+			//放入数组
+			msg->proc_table[msg->pos.sysend].pid = i;
+			msg->proc_table[msg->pos.sysend].p_flags =proc_table[i].p_flags;
+			msg->proc_table[msg->pos.sysend].p_parent =proc_table[i].p_parent;
+			msg->proc_table[msg->pos.sysend].priority =proc_table[i].priority;
+			for(int j=0;j<16;j++)
+			{
+				msg->proc_table[msg->pos.sysend].name[j] =proc_table[i].name[j];
+			}
+			msg->pos.sysend++;
+		}
+
+	}  	
+	//用户进程
+	msg->pos.userbegin = msg->pos.userend = msg->pos.sysend;
+	for(int i=NR_TASKS;i<NR_TASKS+NR_PROCS-1;i++)
+	{
+		if(proc_table[i].p_flags != FREE_SLOT)
+		{
+			//放入数组
+			msg->proc_table[msg->pos.userend].pid = i;
+			msg->proc_table[msg->pos.userend].p_flags =proc_table[i].p_flags;
+			msg->proc_table[msg->pos.userend].p_parent =proc_table[i].p_parent;
+			msg->proc_table[msg->pos.userend].priority =proc_table[i].priority;
+			for(int j=0;j<16;j++)
+			{
+				msg->proc_table[msg->pos.userend].name[j] =proc_table[i].name[j];
+			}
+			msg->pos.userend++;
+		}
+	}
+}

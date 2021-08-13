@@ -3,6 +3,7 @@
  * @file   global.c
  * @brief  
  * @author Forrest Y. Yu
+ * @modified HOLLYwyh
  * @date   2005
  *****************************************************************************
  *****************************************************************************/
@@ -40,10 +41,6 @@ PUBLIC	struct task	user_proc_table[NR_NATIVE_PROCS] = {
 	{TestA,  STACK_SIZE_TESTA, "TestA"},
 	{TestB,  STACK_SIZE_TESTB, "TestB"},
 	{TestC,  STACK_SIZE_TESTC, "TestC"}};
-/* PUBLIC	struct task	user_proc_table[NR_PROCS] = { */
-/* 	{TestA, STACK_SIZE_TESTA, "TestA"}, */
-/* 	{TestB, STACK_SIZE_TESTB, "TestB"}, */
-/* 	{TestC, STACK_SIZE_TESTC, "TestC"}}; */
 
 PUBLIC	char		task_stack[STACK_SIZE_TOTAL];
 
