@@ -21,16 +21,54 @@ int main(int argc, char* argv[])
 		else if(strequal(array[1],all))
 		{
 			getproc(&proc_group,ALL_PROC,&begin,&end);
+			for(int i=begin;i<end;i++)
+			{
+				printf("********\n");
+				printf("*PID   :\t%d\n",proc_group[i].pid);
+				printf("*NAME  :\t%s\n",proc_group[i].name);
+				printf("*STATUS:\tRunning\n");
+				printf("********\n");
+			}
 		}
+		//sys: --sys
 		else if(strequal(array[1],"--sys"))
 		{
 			getproc(&proc_group,SYS_PROC,&begin,&end);
+			for(int i=begin;i<end;i++)
+			{
+				printf("********\n");
+				printf("*PID   :\t%d\n",proc_group[i].pid);
+				printf("*NAME  :\t%s\n",proc_group[i].name);
+				printf("*STATUS:\tRunning\n");
+				printf("********\n");
+			}
 		}
+		//usr: --usr
+		else if(strequal(array[1],"--usr"))
+		{
+			getproc(&proc_group,USER_PROC,&begin,&end);
+			for(int i=begin;i<end;i++)
+			{
+				printf("********\n");
+				printf("*PID   :\t%d\n",proc_group[i].pid);
+				printf("*NAME  :\t%s\n",proc_group[i].name);
+				printf("*STATUS:\tRunning\n");
+				printf("********\n");
+			}
+		}		
 	}
 	//ps
 	else
 	{
 		getproc(&proc_group,USER_PROC,&begin,&end);
+		for(int i=begin;i<end;i++)
+		{
+			printf("********\n");
+			printf("*PID   :\t%d\n",proc_group[i].pid);
+			printf("*NAME  :\t%s\n",proc_group[i].name);
+			printf("*STATUS:\tRunning\n");
+			printf("********\n");
+		}
 	}
 	return 0;
 }

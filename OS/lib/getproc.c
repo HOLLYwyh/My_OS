@@ -13,7 +13,7 @@
 #include "global.h"
 #include "proto.h"
 
-PUBLIC void getproc(struct rt_proc* table,int type, int* begin, int* end)
+PUBLIC void getproc(struct rt_proc table[],int type, int* begin, int* end)
 {
 	MESSAGE msg;
 	msg.type	= GET_PROC; 

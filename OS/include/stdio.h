@@ -166,7 +166,7 @@ PUBLIC	int	syslog		(const char *fmt, ...);
 PUBLIC int	strequal	(const char * str1,const char * str2);
 
 /* lib/getproc.c */
-PUBLIC void 	getproc(struct rt_proc* table,int type, int* begin, int * end);
+PUBLIC void 	getproc(struct rt_proc table[],int type, int* begin, int * end);
 
 
 #endif /* _ORANGES_STDIO_H_ */
