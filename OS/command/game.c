@@ -43,6 +43,11 @@ int main(int argc, char* argv[])
 		{
 			draughts();
 		}
+		else
+		{
+			printf("Welcome to the games!!\n");
+			printf("\t Press 'game -h' or 'game --help' to see the details.\n");
+		}
 	}
 	else if(num == 3)
 	{

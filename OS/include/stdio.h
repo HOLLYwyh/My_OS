@@ -43,7 +43,12 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 #define ALL_PROC	1
 #define SYS_PROC 	2
 #define USER_PROC	3
-#define PROC_NUM	36   //这里需要和proc.h保持一致！！！
+#define NO_PROC		4
+#define SELF_PROC	5
+#define PROC_NUM	37   //这里需要和proc.h保持一致！！！
+
+//Proc status
+#define KILL_STATUS    360
 
 /**
  * @struct stat
@@ -167,6 +172,9 @@ PUBLIC int	strequal	(const char * str1,const char * str2);
 
 /* lib/getproc.c */
 PUBLIC void 	getproc(struct rt_proc table[],int type, int* begin, int * end);
+
+/* lib/killproc.c */
+PUBLIC int	killproc(int pid);
 
 
 #endif /* _ORANGES_STDIO_H_ */

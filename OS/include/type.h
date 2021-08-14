@@ -68,12 +68,13 @@ struct procpos{
 typedef struct {
 	int source;
 	int type;
+	int pid;
 	union {
 		struct mess1 m1;
 		struct mess2 m2;
 		struct mess3 m3;
 	} u;
-	struct rt_proc proc_table[36];    //这里要和proc.h保持一致
+	struct rt_proc proc_table[37];    //这里要和proc.h保持一致
 	struct procpos pos;
 } MESSAGE;
 

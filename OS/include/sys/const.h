@@ -194,7 +194,8 @@ enum msgtype {
 
 	/*Created by Hollywyh*/
 	/*proc*/
-	GET_PROC = 2001
+	GET_PROC = 2001,
+	KILL_PROC
 };
 
 /* macros for messages */

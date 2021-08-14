@@ -24,6 +24,7 @@
 PRIVATE int read_register(char reg_addr);
 PRIVATE u32 get_rtc_time(struct time *t);
 PRIVATE void do_getproc(MESSAGE* msg);
+PRIVATE void do_killproc(MESSAGE* msg);
 /*****************************************************************************
  *                                task_sys
  *****************************************************************************/
@@ -53,6 +54,11 @@ PUBLIC void task_sys()
 		case GET_PROC:
 			msg.type = SYSCALL_RET;
 			do_getproc(&msg);
+			send_recv(SEND,src,&msg);
+			break;
+		case KILL_PROC:
+			msg.type = SYSCALL_RET;
+			do_killproc(&msg);
 			send_recv(SEND,src,&msg);
 			break;
 		case GET_RTC_TIME:
@@ -123,7 +129,7 @@ PRIVATE void do_getproc(MESSAGE* msg)
 {
 	//系统进程
 	msg->pos.sysbegin = msg->pos.sysend = 0;
-	for(int i=0;i<NR_TASKS;i++)
+	for(int i=0;i<NR_TASKS+NR_NATIVE_PROCS+NR_SHELL;i++)
 	{
 		if(proc_table[i].p_flags != FREE_SLOT)
 		{
@@ -142,7 +148,7 @@ PRIVATE void do_getproc(MESSAGE* msg)
 	}  	
 	//用户进程
 	msg->pos.userbegin = msg->pos.userend = msg->pos.sysend;
-	for(int i=NR_TASKS;i<NR_TASKS+NR_PROCS-1;i++)
+	for(int i=NR_TASKS+NR_NATIVE_PROCS+NR_SHELL;i<NR_TASKS+NR_PROCS;i++)
 	{
 		if(proc_table[i].p_flags != FREE_SLOT)
 		{
@@ -156,6 +162,42 @@ PRIVATE void do_getproc(MESSAGE* msg)
 				msg->proc_table[msg->pos.userend].name[j] =proc_table[i].name[j];
 			}
 			msg->pos.userend++;
+		}
+	}
+}
+
+PRIVATE void do_killproc(MESSAGE* msg)
+{
+	int pid = msg->pid;
+	//越界
+	if((pid < 0)||(pid >= NR_PROCS + NR_TASKS))
+	{
+		msg->pid = NO_PROC;
+	}
+	//系统进程
+	else if((pid>=0)&&(pid<NR_TASKS + NR_NATIVE_PROCS + NR_SHELL))
+	{
+		msg->pid =  SYS_PROC;
+	}
+	//用户进程
+	else
+	{
+		if(pid == msg->source)
+		{
+			msg->pid = SELF_PROC;
+		}
+		else if(proc_table[pid].p_flags != FREE_SLOT)
+		{
+			MESSAGE message;
+			message.type = EXIT;
+			message.STATUS = KILL_STATUS;
+			message.pid = pid;
+			send_recv(SEND,TASK_MM,&message);
+			msg->pid = USER_PROC;
+		}
+		else
+		{
+			msg->pid = NO_PROC;
 		}
 	}
 }

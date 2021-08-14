@@ -3,6 +3,7 @@
                                proc.h
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                     Forrest Yu, 2005
+						    HOLLYwyh,   2021
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 
@@ -82,6 +83,7 @@ struct task {
 #define NR_TASKS		5					//系统进程数
 #define NR_PROCS		32					//用户进程总数(一共可以有36个进程)
 #define NR_NATIVE_PROCS		4					//系统最开始启动时的用户进程数
+#define NR_SHELL		3 					//shell的个数
 #define FIRST_PROC		proc_table[0]
 #define LAST_PROC		proc_table[NR_TASKS + NR_PROCS - 1]
 

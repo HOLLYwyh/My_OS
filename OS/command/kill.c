@@ -43,12 +43,39 @@ int main(int argc, char* argv[])
 		//help: -h or --help
 		if((strequal(array[1],help1))||(strequal(array[1],help2)))
 		{
+			printf("\t\t****************************************\n");  //40个*
+			printf("\t\t**                Help                **\n");
+			printf("\t\t****************************************\n");  //40个*
+			printf("\t\t** kill : kill a process              **\n");
+			printf("\t\t**                                    **\n");
+			printf("\t\t** kill proc_pid :                    **\n");
+			printf("\t\t** kill the process with pid proc_pid **\n");
+			printf("\t\t**                                    **\n");
+			printf("\t\t**notice:You can't kill system process**\n");
+			printf("\t\t****************************************\n");  //40个*
 		}
 		//pid
 		else
 		{
 			if(a2i(&pid,array[1]))
 			{
+				int result = killproc(pid);
+				switch(result)
+				{
+					case NO_PROC:
+						printf("Process doesn't exist!\n");
+						break;
+					case SYS_PROC:
+						printf("Can not kill a system related process.\n");
+						break;
+					case SELF_PROC:
+					case USER_PROC:
+						printf("Done.\n");
+						break;
+					default:
+						break;
+
+				}
 			}
 			else
 			{

@@ -3,6 +3,7 @@
  * @file   forkexit.c
  * @brief  
  * @author Forrest Y. Yu
+ * @modified HOLLYwyh
  * @date   Tue May  6 00:37:15 2008
  *****************************************************************************
  *****************************************************************************/
@@ -176,6 +177,10 @@ PUBLIC void do_exit(int status)
 {
 	int i;
 	int pid = mm_msg.source; /* PID of caller */
+	if(mm_msg.STATUS == KILL_STATUS )
+	{
+		pid = mm_msg.pid;
+	}
 	int parent_pid = proc_table[pid].p_parent;
 	struct proc * p = &proc_table[pid];
 

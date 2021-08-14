@@ -44,7 +44,7 @@ LOBJS		=  lib/syscall.o\
 			lib/lseek.o\
 			lib/getpid.o lib/stat.o\
 			lib/fork.o lib/exit.o lib/wait.o lib/exec.o lib/strequal.o\
-			lib/getproc.o
+			lib/getproc.o lib/killproc.o
 # DATA_STRUCTURE
 DSOBJS		=  data_structure/stack.o data_structure/queue.o
 
@@ -248,4 +248,7 @@ game/draughts.o : game/draughts.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 lib/getproc.o : lib/getproc.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+lib/killproc.o : lib/killproc.c
 	$(CC) $(CFLAGS) -o $@ $<
