@@ -14,6 +14,8 @@ int main(int argc, char* argv[])
 	printf("\t\t** 6 - ps : Process related.          **\n");
 	printf("\t\t** 7 - game : Games related.          **\n");
 	printf("\t\t** 8 - details:OS's details.          **\n");
+	printf("\t\t** 9 - kill: kill a user process.     **\n");
+	printf("\t\t** 10 - time: current time.           **\n");
 	printf("\t\t****************************************\n");//40个*
 
 	return 0;

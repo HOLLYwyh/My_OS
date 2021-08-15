@@ -176,5 +176,8 @@ PUBLIC void 	getproc(struct rt_proc table[],int type, int* begin, int * end);
 /* lib/killproc.c */
 PUBLIC int	killproc(int pid);
 
+/* lib/gettime.c*/
+PUBLIC void 	gettime(struct time* tm);
+
 
 #endif /* _ORANGES_STDIO_H_ */
