@@ -38,7 +38,7 @@ PUBLIC	struct task	user_proc_table[NR_NATIVE_PROCS] = {
 	/* entry    stack size     proc name */
 	/* -----    ----------     --------- */
 	{Init,   STACK_SIZE_INIT,  "INIT" },
-	{TestA,  STACK_SIZE_TESTA, "TestA"},
+	{ps_monitor,  STACK_SIZE_PS_MONITOR, "PS_MONITOR"},
 	{TestB,  STACK_SIZE_TESTB, "TestB"},
 	{TestC,  STACK_SIZE_TESTC, "TestC"}};
 

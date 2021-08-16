@@ -362,11 +362,21 @@ void Init()
 
 
 /*======================================================================*
-                               TestA
+                               ps_monitor
+		    monitor all sys processes
  *======================================================================*/
-void TestA()
+void ps_monitor()
 {
-	for(;;);
+	while(1)
+	{
+		for(int i=0;i<NR_TASKS+NR_NATIVE_PROCS;i++)
+		{
+			if(proc_table[i].p_flags == FREE_SLOT)
+			{
+				assert(0);
+			}
+		}
+	}
 }
 
 /*======================================================================*

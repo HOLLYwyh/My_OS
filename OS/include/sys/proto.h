@@ -40,7 +40,7 @@ PUBLIC void restart();
 /* main.c */
 PUBLIC void Init();
 PUBLIC int  get_ticks();
-PUBLIC void TestA();
+PUBLIC void ps_monitor();
 PUBLIC void TestB();
 PUBLIC void TestC();
 PUBLIC void panic(const char *fmt, ...);
