@@ -3,6 +3,7 @@
  * @file   disklog.c
  * @brief  
  * @author Forrest Y. Yu
+ * @modified by HOLLYwyh
  * @date   Thu Nov 20 16:22:45 2008
  *****************************************************************************
  *****************************************************************************/
@@ -37,29 +38,6 @@
 					       logdiskbuf);
 
 
-/* /\***************************************************************************** */
-/*  *                                do_disklog */
-/*  *****************************************************************************\/ */
-/* /\** */
-/*  * Perform syslog() system call . */
-/*  * */
-/*  * @return  */
-/*  *****************************************************************************\/ */
-/* PUBLIC int do_disklog() */
-/* { */
-/* 	char buf[STR_DEFAULT_LEN]; */
-
-/* 	/\* get parameters from the message *\/ */
-/* 	int str_len = fs_msg.CNT;	/\* length of filename *\/ */
-/* 	int src = fs_msg.source;	/\* caller proc nr. *\/ */
-/* 	assert(str_len < STR_DEFAULT_LEN); */
-/* 	phys_copy((void*)va2la(TASK_FS, buf),    /\* to   *\/ */
-/* 		  (void*)va2la(src, fs_msg.BUF), /\* from *\/ */
-/* 		  str_len); */
-/* 	buf[str_len] = 0;	/\* terminate the string *\/ */
-
-/* 	return disklog(buf); */
-/* } */
 
 /*****************************************************************************
  *                                disklog
@@ -98,7 +76,6 @@ PUBLIC int disklog(char * logstr)
 
 			for (; byte_off < SECTOR_SIZE && bits_left > 0; byte_off++) {
 				for (; bit_off < 8; bit_off++) { /* repeat till enough bits are set */
-					assert(((logdiskbuf[byte_off] >> bit_off) & 1) == 0);
 					logdiskbuf[byte_off] |= (1 << bit_off);
 					if (--bits_left  == 0)
 						break;
@@ -191,60 +168,6 @@ PUBLIC int disklog(char * logstr)
 	return pos;
 }
 
-/* /\***************************************************************************** */
-/*  *                                inode2filename */
-/*  *****************************************************************************\/ */
-/* /\** */
-/*  * Get filename via i-node */
-/*  *  */
-/*  * @param inode  */
-/*  * @param filename  */
-/*  *  */
-/*  * @return  */
-/*  *****************************************************************************\/ */
-/* PRIVATE char * inode2filename(int inode, char * filename) */
-/* { */
-/* 	int i, j; */
-
-/* 	struct inode * dir_inode = root_inode; */
-
-/* 	/\** */
-/* 	 * Search the dir for the file. */
-/* 	 *\/ */
-/* 	int dir_blk0_nr = dir_inode->i_start_sect; */
-/* 	int nr_dir_blks = (dir_inode->i_size + SECTOR_SIZE - 1) / SECTOR_SIZE; */
-/* 	int nr_dir_entries = */
-/* 	  dir_inode->i_size / DIR_ENTRY_SIZE; /\** */
-/* 					       * including unused slots */
-/* 					       * (the file has been deleted */
-/* 					       * but the slot is still there) */
-/* 					       *\/ */
-/* 	int m = 0; */
-/* 	struct dir_entry * pde; */
-/* 	for (i = 0; i < nr_dir_blks; i++) { */
-/* 		DISKLOG_RD_SECT(dir_inode->i_dev, dir_blk0_nr + i); */
-/* 		pde = (struct dir_entry *)logdiskbuf; */
-/* 		for (j = 0; j < SECTOR_SIZE / DIR_ENTRY_SIZE; j++,pde++) { */
-/* 			if (pde->inode_nr == inode) { */
-/* 				memcpy(filename, pde->name, MAX_FILENAME_LEN); */
-/* 				filename[MAX_FILENAME_LEN] = 0; */
-
-/* 				if (filename[0] == '.') */
-/* 					filename[0] = '/'; */
-
-/* 				return filename; */
-/* 			} */
-/* 			if (++m > nr_dir_entries) */
-/* 				break; */
-/* 		} */
-/* 		if (m > nr_dir_entries) /\* all entries have been iterated *\/ */
-/* 			break; */
-/* 	} */
-
-/* 	/\* file not found *\/ */
-/* 	return 0; */
-
-/* } */
 
 #define LOG_PROCS			1 /* YES */
 
@@ -288,15 +211,11 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	i = vsprintf(title, fmt, arg);
 	assert(strlen(title) == i);
 
-	printl("dump_fd_graph: %s\n", title);
 
 	struct proc* p_proc;
 
 	int callerpid = getpid();
 
-	/* assert(getpid() == TASK_MM); */
-
-	printl("<|");
 
 	disable_int();
 
@@ -309,7 +228,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 		if ((i == TASK_TTY) ||
 		    (i == TASK_SYS) ||
 		    (i == TASK_HD)  ||
-		    /* (i == TASK_FS)  || */
 		    (i == callerpid))
 			continue;
 
@@ -340,8 +258,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	proc_flags[RECEIVING+WAITING] = "RECEIVING, WAITING";
 	proc_flags[RECEIVING+HANGING] = "RECEIVING, HANGING";
 
-	/* int inode_list[64]; */
-	/* int il_idx = 0; */
 
 #if (LOG_PROCS == 1 || LOG_ARROW_PARENT_CHILD == 1)
 	struct proc_parent_map {
@@ -374,7 +290,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 		int dir;
 	} msd[256];
 	int msd_idx = 0;
-	printl("|_|");
 
 	/* head */
 	logbufpos += sprintf(logbuf + logbufpos,
@@ -398,13 +313,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 		if (p_proc->p_flags == FREE_SLOT)
 			continue;
 
-		/* /\* skip procs which open no files *\/ */
-		/* for (k = 0; k < NR_FILES; k++) { */
-		/* 	if (p_proc->filp[k] != 0) */
-		/* 		break; */
-		/* } */
-		/* if (k == NR_FILES) */
-		/* 	continue; */
 
 		if (p_proc->p_parent != NO_TASK) {
 			ppm[ppm_idx].pid = i;
@@ -472,7 +380,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\t}\n");
 #endif
 
-	printl("0");
 
 #if (LOG_FD_TABLE == 1)
 	logbufpos += sprintf(logbuf + logbufpos, "\n\tsubgraph cluster_1 {\n");
@@ -504,7 +411,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\t}\n");
 #endif
 
-	printl("1");
 
 #if (LOG_INODE_TABLE == 1)
 	logbufpos += sprintf(logbuf + logbufpos, "\n\tsubgraph cluster_2 {\n");
@@ -538,7 +444,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\t}\n");
 #endif
 
-	printl("2");
 
 	enable_int();
 
@@ -548,9 +453,7 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\n\t\tcolor=lightgrey;\n");
 	int smap_flag = 0;
 	int bit_start = 0;
-	/* i:     sector index */
 	int j; /* byte index */
-	/* k:     bit index */
 	struct super_block * sb = get_super_block(root_inode->i_dev);
 	int smap_blk0_nr = 1 + 1 + sb->nr_imap_sects;
 	for (i = 0; i < sb->nr_smap_sects; i++) { /* smap_blk0_nr + i : current sect nr. */
@@ -590,7 +493,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\t}\n");
 #endif
 
-	printl("3");
 
 #if (LOG_IMAP == 1)
 	logbufpos += sprintf(logbuf + logbufpos, "\n\tsubgraph cluster_4 {\n");
@@ -598,9 +500,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\n\t\tcolor=lightgrey;\n");
 	logbufpos += sprintf(logbuf + logbufpos, "\t\t\"imap\" [\n");
 	logbufpos += sprintf(logbuf + logbufpos, "\t\t\tlabel = \"<f0>bits");
-	/* i:     sector index */
-	/* j:     byte index */
-	/* k:     bit index */
 	int imap_blk0_nr = 1 + 1;
 	for (i = 0; i < sb->nr_imap_sects; i++) { /* smap_blk0_nr + i : current sect nr. */
 		DISKLOG_RD_SECT(root_inode->i_dev, imap_blk0_nr + i);
@@ -621,7 +520,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\t}\n");
 #endif
 
-	printl("4");
 
 #if (LOG_INODE_ARRAY == 1)
 	logbufpos += sprintf(logbuf + logbufpos, "\n\tsubgraph cluster_5 {\n");
@@ -681,7 +579,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\t}\n");
 #endif
 
-	printl("5");
 
 #if (LOG_ROOT_DIR == 1)
 	logbufpos += sprintf(logbuf + logbufpos, "\n\tsubgraph cluster_6 {\n");
@@ -731,8 +628,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	logbufpos += sprintf(logbuf + logbufpos, "\t\tlabel = \"root dir\";\n");
 	logbufpos += sprintf(logbuf + logbufpos, "\t}\n");
 #endif
-
-	printl("6");
 
 #if (LOG_MSG_SRC2DST == 1)
 	for (i = 0; i < msd_idx; i++) {
@@ -787,11 +682,6 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 					     inode_table[i].i_num);
 	}
 #endif
-	/* for (i = 0; i < il_idx; i++) { */
-	/* 	logbufpos += sprintf(logbuf + logbufpos, "\t\"inode%d\":f7 -> \"inodearray%d\":f0;\n", */
-	/* 	       inode_list[i], inode_list[i]); */
-	/* } */
-
 	/* tail */
 	logbufpos += sprintf(logbuf + logbufpos, "\tlabel = \"%s\";\n", title);
 	logbufpos += sprintf(logbuf + logbufpos, "}\n");
@@ -830,9 +720,5 @@ PUBLIC void dump_fd_graph(const char * fmt, ...)
 	}
 	enable_int();
 
-	printl("|>");
-
-	/* int pos = logbufpos += sprintf(logbuf + logbufpos, "--separator--\n"); */
-	/* printl("dump_fd_graph(%s)::logbufpos:%d\n", title, logbufpos); */
 }
 

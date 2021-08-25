@@ -12,7 +12,7 @@ CFLAGS		= -I ../include/ -c -fno-builtin -fno-stack-protector -Wall -m32
 LDFLAGS		= -Ttext 0x1000
 DASMFLAGS	= -D
 LIB		= ../lib/orangescrt.a
-BIN		= echo pwd author cal cmd ps game details kill time
+BIN		= echo pwd author cal cmd ps game details kill time rm touch
 
 # All Phony Targets
 .PHONY : everything final clean realclean disasm all install
@@ -110,4 +110,18 @@ time.o : time.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 time : time.o start.o $(LIB)
+	$(LD) -m elf_i386 $(LDFLAGS) -o $@ $?
+
+# touch 
+touch.o : touch.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+touch : touch.o start.o $(LIB)
+	$(LD) -m elf_i386 $(LDFLAGS) -o $@ $?
+
+# rm 
+rm.o : rm.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+rm : rm.o start.o $(LIB)
 	$(LD) -m elf_i386 $(LDFLAGS) -o $@ $?
