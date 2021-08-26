@@ -189,7 +189,8 @@ PUBLIC int createfile(char* filename)
 		return USR_FILE;
 	}
 	else
-	{		
+	{	
+		close(fd);	
 		return CREATED;
 	}
 }
