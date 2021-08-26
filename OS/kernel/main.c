@@ -287,15 +287,23 @@ void shell(const char * tty_name)
 		if(argv[0][0]==127)  //解决一个文件系统的Bug，当按下回车时另起一行，否则死循环
 			continue;
 
-		int fd = open(argv[0], O_RDWR);
-		if (fd == -1) {
-			if (rdbuf[0]) {
-				write(1, rdbuf, r);
-				write(1,": command not found\n",20);
+		init_files();
+		int flag = 0;
+		for(int i=0;i<SYS_FILE_NUM;i++)
+		{	
+			if(strequal(system_files[i],argv[0]))
+			{
+				flag = 1;
 			}
 		}
-		else {
-			close(fd);
+		
+		if(!flag)
+		{
+			write(1,rdbuf,r);
+			write(1,": command not found\n",20);
+		}
+		else
+		{
 			if(argv[0][0]=='/')
 			{
 				write(1,"/\n",2);

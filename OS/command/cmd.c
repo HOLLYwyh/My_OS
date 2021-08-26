@@ -19,6 +19,8 @@ int main(int argc, char* argv[])
 	printf("\t\t** 11 - touch: create a file.         **\n");
 	printf("\t\t** 12 - rm: delete a file.            **\n");
 	printf("\t\t** 13 - ls: list all files.           **\n");
+	printf("\t\t** 14 - cat: read a file.             **\n");
+	printf("\t\t** 15 - write: write a file.          **\n");
 	printf("\t\t****************************************\n");//40个*
 
 	return 0;

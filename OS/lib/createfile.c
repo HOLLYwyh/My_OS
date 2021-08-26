@@ -164,6 +164,22 @@ PUBLIC void init_files()
 	system_files[18][1] = 's';
 	system_files[18][2] =  0 ;
 
+	// "cat"
+	system_files[19][0] = 'c';
+	system_files[19][1] = 'a';
+	system_files[19][2] = 't';
+	system_files[19][3] =  0 ;
+
+	//"write"
+	system_files[20][0] = 'w';
+	system_files[20][1] = 'r';
+	system_files[20][2] = 'i';
+	system_files[20][3] = 't';
+	system_files[20][4] = 'e';
+	system_files[20][5] =  0 ;
+	
+	
+
 }
 
 
