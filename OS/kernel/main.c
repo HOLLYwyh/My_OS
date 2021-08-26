@@ -386,6 +386,7 @@ void fs_monitor()
 {
 	while(1)
 	{
+		//确保一半长度用户磁盘空间
 		if( SYS_FILE_NUM > NR_FILES/2)
 		{
 			assert(0);
@@ -394,11 +395,23 @@ void fs_monitor()
 }
 
 /*======================================================================*
-                               TestC
+                               mm_monitor
  *======================================================================*/
-void TestC()
+void mm_monitor()
 {
-	for(;;);
+	while(1)
+	{	int num = 0;
+
+		for(int i= NR_TASKS; i < NR_TASKS + NR_PROCS ; i++)
+		{
+			if(proc_table[i].p_flags != FREE_SLOT)
+			{
+				num++;
+			}
+		}
+		
+		assert(num <= 12);
+	}
 }
 
 /*****************************************************************************

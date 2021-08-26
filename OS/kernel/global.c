@@ -40,7 +40,7 @@ PUBLIC	struct task	user_proc_table[NR_NATIVE_PROCS] = {
 	{Init,   STACK_SIZE_INIT,  "INIT" },
 	{ps_monitor,  STACK_SIZE_PS_MONITOR, "PS_MONITOR"},
 	{fs_monitor,  STACK_SIZE_FS_MONITOR, "FS_MONITOR"},
-	{TestC,  STACK_SIZE_TESTC, "TestC"}};
+	{mm_monitor,  STACK_SIZE_MM_MONITOR, "MM_MONITOR"}};
 
 PUBLIC	char		task_stack[STACK_SIZE_TOTAL];
 

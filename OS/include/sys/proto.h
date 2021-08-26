@@ -42,7 +42,7 @@ PUBLIC void Init();
 PUBLIC int  get_ticks();
 PUBLIC void ps_monitor();
 PUBLIC void fs_monitor();
-PUBLIC void TestC();
+PUBLIC void mm_monitor();
 PUBLIC void panic(const char *fmt, ...);
 
 /* i8259.c */
