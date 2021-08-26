@@ -56,7 +56,8 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 #define CREATED  3
 #define DELETED  4
 #define FILE_ERROR 5
-#define SYS_FILE_NUM  18
+#define ALL_FILE 6
+#define SYS_FILE_NUM  19
 char system_files[25][15];
 
 /**
@@ -195,6 +196,9 @@ PUBLIC int 	createfile(char* filename);
 PUBLIC int	deletefile(char* filename);
 
 /* lib/createfile.c */
-PUBLIC void init_files();
+PUBLIC void 	init_files();
+
+/* lib/listfile.c */
+PUBLIC void	listfile(char (*list)[30], int * begin, int* end,int type); 	
 
 #endif /* _ORANGES_STDIO_H_ */

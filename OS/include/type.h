@@ -69,6 +69,7 @@ typedef struct {
 	int source;
 	int type;
 	int pid;
+	int file_number;
 	union {
 		struct mess1 m1;
 		struct mess2 m2;
@@ -76,6 +77,7 @@ typedef struct {
 	} u;
 	struct rt_proc proc_table[37];    //这里要和proc.h保持一致
 	struct procpos pos;
+	char   file_table[30][15];
 } MESSAGE;
 
 /* i have no idea of where to put this struct, so i put it here */

@@ -159,6 +159,11 @@ PUBLIC void init_files()
 	system_files[17][4] = 'h';
 	system_files[17][5] =  0 ;
 
+	// "ls"
+	system_files[18][0] = 'l';
+	system_files[18][1] = 's';
+	system_files[18][2] =  0 ;
+
 }
 
 
