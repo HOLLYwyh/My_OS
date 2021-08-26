@@ -55,6 +55,7 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 #define USR_FILE 2
 #define CREATED  3
 #define DELETED  4
+#define FILE_ERROR 5
 #define SYS_FILE_NUM  18
 char system_files[25][15];
 

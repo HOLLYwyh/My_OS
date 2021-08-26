@@ -16,6 +16,8 @@ int main(int argc, char* argv[])
 	printf("\t\t** 8 - details:OS's details.          **\n");
 	printf("\t\t** 9 - kill: kill a user process.     **\n");
 	printf("\t\t** 10 - time: current time.           **\n");
+	printf("\t\t** 11 - touch: create a file.         **\n");
+	printf("\t\t** 12 - rm: delete a file.            **\n");
 	printf("\t\t****************************************\n");//40个*
 
 	return 0;
