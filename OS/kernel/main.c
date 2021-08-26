@@ -259,7 +259,7 @@ void shell(const char * tty_name)
 	char rdbuf[128];
 
 	while (1) {
-		write(1, "$ ", 2);
+		write(1, "HearthStone_OS:/$ ", 18);
 		int r = read(0, rdbuf, 70);
 		rdbuf[r] = 0;
 
