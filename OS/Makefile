@@ -44,7 +44,8 @@ LOBJS		=  lib/syscall.o\
 			lib/lseek.o\
 			lib/getpid.o lib/stat.o\
 			lib/fork.o lib/exit.o lib/wait.o lib/exec.o lib/strequal.o\
-			lib/getproc.o lib/killproc.o lib/gettime.o
+			lib/getproc.o lib/killproc.o lib/gettime.o\
+			lib/createfile.o lib/deletefile.o
 # DATA_STRUCTURE
 DSOBJS		=  data_structure/stack.o data_structure/queue.o
 
@@ -254,4 +255,10 @@ lib/killproc.o : lib/killproc.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 lib/gettime.o : lib/gettime.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+lib/createfile.o : lib/createfile.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+lib/deletefile.o : lib/deletefile.c
 	$(CC) $(CFLAGS) -o $@ $<

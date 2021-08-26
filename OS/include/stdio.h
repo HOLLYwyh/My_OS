@@ -50,6 +50,14 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 //Proc status
 #define KILL_STATUS    360
 
+// FILES
+#define SYS_FILE 1
+#define USR_FILE 2
+#define CREATED  3
+#define DELETED  4
+#define SYS_FILE_NUM  18
+char system_files[25][15];
+
 /**
  * @struct stat
  * @brief  File status, returned by syscall stat();
@@ -179,5 +187,13 @@ PUBLIC int	killproc(int pid);
 /* lib/gettime.c*/
 PUBLIC void 	gettime(struct time* tm);
 
+/* lib/createfile.c */
+PUBLIC int 	createfile(char* filename);
+
+/* lib/deletefile.c */
+PUBLIC int	deletefile(char* filename);
+
+/* lib/createfile.c */
+PUBLIC void init_files();
 
 #endif /* _ORANGES_STDIO_H_ */
