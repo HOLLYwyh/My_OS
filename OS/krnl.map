@@ -560,7 +560,7 @@ LOAD lib/orangescrt.a
                 0x0000000000001ae8                shell
                 0x0000000000001d45                Init
                 0x0000000000001e8e                ps_monitor
-                0x0000000000001ef6                TestB
+                0x0000000000001ef6                fs_monitor
                 0x0000000000001f09                TestC
                 0x0000000000001f1c                panic
  .text.__x86.get_pc_thunk.ax
