@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
 			if(fd == -1)
 			{
 				printf("File not found\n");
+				return 0;
 			}
 
 			read(fd, (void*)buf, sizeof(buf));

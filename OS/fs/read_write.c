@@ -40,8 +40,6 @@ PUBLIC int do_rdwt()
 
 	int src = fs_msg.source;		/* caller proc nr. */
 
-	assert((pcaller->filp[fd] >= &f_desc_table[0]) &&
-	       (pcaller->filp[fd] < &f_desc_table[NR_FILE_DESC]));
 
 	if (!(pcaller->filp[fd]->fd_mode & O_RDWR))
 		return 0;
@@ -50,7 +48,6 @@ PUBLIC int do_rdwt()
 
 	struct inode * pin = pcaller->filp[fd]->fd_inode;
 
-	assert(pin >= &inode_table[0] && pin < &inode_table[NR_INODE]);
 
 	int imode = pin->i_mode & I_TYPE_MASK;
 
@@ -72,7 +69,6 @@ PUBLIC int do_rdwt()
 		return fs_msg.CNT;
 	}
 	else {
-		assert(pin->i_mode == I_REGULAR || pin->i_mode == I_DIRECTORY);
 		assert((fs_msg.type == READ) || (fs_msg.type == WRITE));
 
 		int pos_end;

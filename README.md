@@ -58,7 +58,7 @@ xx --help
 ### 3.4 执行程序
 输入相应的指令即可执行程序
 1. echo  
-功能： 输出用户输入的内容
+功能： 输出用户输入的内容  
 ![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/echo.png)  
 2. pwd  
 功能：查看当前路径  
@@ -83,37 +83,64 @@ xx --help
 ![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/time.png)  
 9. touch  
 功能：新建文件  
-
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/touch.png)  
 10. rm  
 功能：删除文件  
-
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/rm.png)  
 11. ls  
 功能：列举所有的文件  
-
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/ls.png)  
 12. cat  
 功能：查看文件信息  
-
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/cat.png)  
 13. write
 功能：写文件  
-
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/write.png)  
 14. details
 功能：查看操作系统详细信息  
 ![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/details.png)  
 15. game  
 功能：玩游戏  
-
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/draughts.png)  
 16. 输入其他内容  
 Shell会检测用户的输入并给出一定的提示  
-
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/cmd_not_found.png)  
 ## 4. 操作系统设计与描述
-### 4.1进程设计
+### 4.1总体设计
+1. 采用微内核，进程之间通过发送与接收消息的方式来传递消息。  
+2. 采用分页的方式来管理磁盘。  
+3. 内存共32M，10M的系统内存，22M的用户内存。  
+4. 通过将程序压缩成压缩包后解压的方式安装程序。  
 
-### 4.2 文件系统设计
+### 4.2进程设计
+### 4.2.1 系统进程(Ring 0)
+Ring0级别的系统进程有：  
+- TTY(控制中断程序)  
+- SYS(控制系统进程、时间等)  
+- HD(控制硬件的读写)  
+- FS(控制文件系统)  
+- MM(控制内存管理，内存分配等)  
+### 4.2.2 用户进程(Ring 1)
+Ring1级别的用户级进程有：  
+- Init(所有用户级进程的祖先)
+- ps_monitor(实时监控进程，以防止进程错误)  
+- fs_monitor(实时监控文件系统，以防止文件系统的错误)  
+- mm_monitor(实时监控内存，以防止内存的错误)  
+### 4.2.3 用户进程(Ring 3)
+由进程fork()而成的进程，可以被终止。  
+### 4.2.4 进程调度
+进程调度采用时间片轮转法和非抢占式优先级调度的方式。  
+- 当时间片时间结束之后，系统将选择优先级最高的进程执行  
+- 当前进程因等待消息而阻塞时，系统将选择优先级最高的进程执行。  
 
-### 4.3 内存设计
+### 4.3 文件系统设计
+- 将磁盘的一部分开辟为系统的硬件区域，并将系统的文件挂载在磁盘上。  
+- 采用分页的形式来管理磁盘文件。  
+### 4.4 内存设计
 
-### 4.4 Shell设计
-
+### 4.5 Shell设计
+首先创建名为shell对应指令的文件，将其安装在磁盘中，当用户输入对应指令之后，系统会
+查找磁盘，fork()产生一个子进程并执行程序。执行完毕之后，子进程释放，返回父进程。  
 
 
 

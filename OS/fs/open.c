@@ -49,7 +49,6 @@ PUBLIC int do_open()
 	int flags = fs_msg.FLAGS;	/* access mode */
 	int name_len = fs_msg.NAME_LEN;	/* length of filename */
 	int src = fs_msg.source;	/* caller proc nr. */
-	assert(name_len < MAX_PATH);
 	phys_copy((void*)va2la(TASK_FS, pathname),
 		  (void*)va2la(src, fs_msg.PATHNAME),
 		  name_len);
@@ -88,13 +87,9 @@ PUBLIC int do_open()
 	}
 	else if (flags & O_RDWR) { /* file exists */
 		if ((flags & O_CREAT) && (!(flags & O_TRUNC))) {
-			assert(flags == (O_RDWR | O_CREAT));
 			//printl("{FS} file exists: %s\n", pathname);
 			return -1;
 		}
-		assert((flags ==  O_RDWR                     ) ||
-		       (flags == (O_RDWR | O_TRUNC          )) ||
-		       (flags == (O_RDWR | O_TRUNC | O_CREAT)));
 
 		char filename[MAX_PATH];
 		struct inode * dir_inode;
@@ -108,7 +103,6 @@ PUBLIC int do_open()
 	}
 
 	if (flags & O_TRUNC) {
-		assert(pin);
 		pin->i_size = 0;
 		sync_inode(pin);
 	}
@@ -131,8 +125,6 @@ PUBLIC int do_open()
 			driver_msg.type = DEV_OPEN;
 			int dev = pin->i_start_sect;
 			driver_msg.DEVICE = MINOR(dev);
-			assert(MAJOR(dev) == 4);
-			assert(dd_map[MAJOR(dev)].driver_nr != INVALID_DRIVER);
 			send_recv(BOTH,
 				  dd_map[MAJOR(dev)].driver_nr,
 				  &driver_msg);
@@ -338,7 +330,7 @@ PRIVATE int alloc_smap_bit(int dev, int nr_sects_to_alloc)
 			break;
 	}
 
-	assert(nr_sects_to_alloc == 0);
+	//assert(nr_sects_to_alloc == 0);
 
 	return free_sect_nr;
 }

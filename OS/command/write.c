@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
 			if(fd == -1)
 			{
 				printf("File not found\n");
+				return 0;
 			}
 
 			printf("Please write something:\n\t");
