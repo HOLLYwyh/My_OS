@@ -1,0 +1,6 @@
+//生成静态链接库
+ar rcs lib/orangescrt.a lib/syscall.o lib/printf.o lib/vsprintf.o lib/string.o lib/misc.o lib/open.o lib/read.o lib/write.o lib/close.o lib/unlink.o lib/getpid.o lib/fork.o lib/exit.o lib/wait.o lib/strequal.o lib/scanf.o lib/vsscanf.o lib/getproc.o lib/killproc.o lib/gettime.o lib/createfile.o lib/deletefile.o lib/listfile.o
+
+
+
+xxd -u -a -g 1 -c 16 -s 0xA01800 -l 512 80m.img
