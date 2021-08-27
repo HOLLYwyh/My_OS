@@ -17,7 +17,7 @@ github地址： https://github.com/HOLLYwyh/My_OS
 ### 2.2 配置工作环境
 - 进入到OS文件夹中  
 - 修改bochsrc,将下图中的romimage、vgaromimage工作路径更换为自己的工作路径(bochs 安装路径)  
-![Image text](https://github.com/HOLLYwyh/My_OS/main/pictures/bochsrc.png)  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/bochsrc.png)  
 
 ## 3. 操作说明
 ## 4. 功能概述
