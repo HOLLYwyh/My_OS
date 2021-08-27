@@ -55,12 +55,64 @@ xx --help
 ![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/-h.png)  
 查看此指令的使用方法  
 4. 按键盘的上下方向键可以上下翻页  
+### 3.4 执行程序
+输入相应的指令即可执行程序
+1. echo  
+功能： 输出用户输入的内容
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/echo.png)  
+2. pwd  
+功能：查看当前路径  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/pwd.png)  
+3. author  
+功能： 查看操作系统的作者  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/author.png)  
+4. cal  
+功能：计算器  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/cal.png)  
+5. cmd  
+功能：查看所有指令  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/cmd.png)  
+6. ps  
+功能：查看所有进程  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/ps.png)  
+7. kill
+功能：终止进程  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/kill.png)  
+8. time  
+功能：查看当前时间  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/time.png)  
+9. touch  
+功能：新建文件  
 
-## 4. 功能概述
+10. rm  
+功能：删除文件  
 
+11. ls  
+功能：列举所有的文件  
 
+12. cat  
+功能：查看文件信息  
 
+13. write
+功能：写文件  
 
+14. details
+功能：查看操作系统详细信息  
+![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/details.png)  
+15. game  
+功能：玩游戏  
+
+16. 输入其他内容  
+Shell会检测用户的输入并给出一定的提示  
+
+## 4. 操作系统设计与描述
+### 4.1进程设计
+
+### 4.2 文件系统设计
+
+### 4.3 内存设计
+
+### 4.4 Shell设计
 
 
 
