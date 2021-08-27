@@ -18,7 +18,11 @@ github地址： https://github.com/HOLLYwyh/My_OS
 - 进入到OS文件夹中  
 - 修改bochsrc,将下图中的romimage、vgaromimage工作路径更换为自己的工作路径(bochs 安装路径)  
 ![Image text](https://github.com/HOLLYwyh/My_OS/blob/main/pictures/bochsrc.png)  
-### 2.3 运行操作系统
+### 2.3 挂载硬盘
+- 由于挂载指令已经写在了OS文件夹下的Makefile中，用户无需输入更多内容。  
+- 在OS文件夹下新建一个文件夹mnt，在mnt文件夹中新建一个floppy文件夹即可。  
+即建立/OS/mnt/floppy  
+### 2.4 运行操作系统
 - 在OS目录下输入  
 ```
 bochs  -f bochsrc
@@ -137,7 +141,8 @@ Ring1级别的用户级进程有：
 - 将磁盘的一部分开辟为系统的硬件区域，并将系统的文件挂载在磁盘上。  
 - 采用分页的形式来管理磁盘文件。  
 ### 4.4 内存设计
-
+- 内存共32M，10M的系统内存，22M的用户内存。  
+- 每一个进程都会分配一定的内存单元，以确保系统的正常运行。  
 ### 4.5 Shell设计
 首先创建名为shell对应指令的文件，将其安装在磁盘中，当用户输入对应指令之后，系统会
 查找磁盘，fork()产生一个子进程并执行程序。执行完毕之后，子进程释放，返回父进程。  
